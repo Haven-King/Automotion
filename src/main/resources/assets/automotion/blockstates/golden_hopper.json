@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "automotion:block/golden_hopper"
+    },
+    "facing=east": {
+      "model": "automotion:block/golden_hopper_side",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "automotion:block/golden_hopper_side"
+    },
+    "facing=south": {
+      "model": "automotion:block/golden_hopper_side",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "automotion:block/golden_hopper_side",
+      "y": 270
+    }
+  }
+}

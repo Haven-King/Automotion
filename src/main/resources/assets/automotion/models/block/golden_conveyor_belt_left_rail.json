@@ -1,0 +1,7 @@
+{
+	"parent": "automotion:block/conveyor_belt_left_rail",
+	"textures": {
+		"2": "minecraft:block/gold_block",
+		"particle": "minecraft:block/gold_block"
+	}
+}

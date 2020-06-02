@@ -1,0 +1,7 @@
+{
+	"parent": "automotion:item/conveyor_belt",
+	"textures": {
+		"1": "automotion:block/conveyor_belt_reel_fast",
+		"2": "minecraft:block/gold_block"
+	}
+}

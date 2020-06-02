@@ -1,0 +1,7 @@
+{
+  "parent": "automotion:block/wall",
+  "textures": {
+    "1": "minecraft:block/iron_block",
+    "particle": "minecraft:block/iron_block"
+  }
+}

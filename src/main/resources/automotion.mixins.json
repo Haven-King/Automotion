@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "hephaestus.dev.automotion.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "client.render.entity.ItemEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "block.BubbleColumnBlockMixin",
+    "block.entity.HopperBlockEntityMixin",
+    "client.render.GameRendererMixin",
+    "entity.EntityMixin",
+    "entity.ItemEntityMixin",
+    "item.BucketItemMixin"
+  ]
+}

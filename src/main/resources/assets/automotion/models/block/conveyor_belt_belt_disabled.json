@@ -1,0 +1,19 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"1": "minecraft:block/black_wool",
+		"particle": "minecraft:block/black_wool"
+	},
+	"elements": [
+		{
+			"from": [0, 0.00, 0],
+			"to": [16, 2.99, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 13, 16, 16], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		}
+	]
+}

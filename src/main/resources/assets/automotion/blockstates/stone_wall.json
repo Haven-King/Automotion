@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=east,shape=inner_left": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,shape=inner_right": {
+      "model": "automotion:block/wall_inner_corner"
+    },
+    "facing=east,shape=outer_left": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,shape=outer_right": {
+      "model": "automotion:block/wall_outer_corner"
+    },
+    "facing=east,shape=straight": {
+      "model": "automotion:block/wall"
+    },
+    "facing=north,shape=inner_left": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,shape=inner_right": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,shape=outer_left": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,shape=outer_right": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,shape=straight": {
+      "model": "automotion:block/wall",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=south,shape=inner_left": {
+      "model": "automotion:block/wall_inner_corner"
+    },
+    "facing=south,shape=inner_right": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,shape=outer_left": {
+      "model": "automotion:block/wall_outer_corner"
+    },
+    "facing=south,shape=outer_right": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,shape=straight": {
+      "model": "automotion:block/wall",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,shape=inner_left": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,shape=inner_right": {
+      "model": "automotion:block/wall_inner_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,shape=outer_left": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,shape=outer_right": {
+      "model": "automotion:block/wall_outer_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,shape=straight": {
+      "model": "automotion:block/wall",
+      "y": 180,
+      "uvlock": true
+    }
+  }
+}

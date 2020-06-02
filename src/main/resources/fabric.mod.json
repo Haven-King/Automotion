@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "automotion",
+  "version": "${version}",
+  "name": "Automotion",
+  "license": "MIT",
+  "icon": "assets/automotion/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "hephaestus.dev.automotion.Automotion"
+    ],
+    "client": [
+      "hephaestus.dev.automotion.Automotion"
+    ]
+  },
+  "accessWidener": "automotion.accesswidener",
+  "mixins": [
+    "automotion.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.4+build.198",
+    "fabric": "*"
+  }
+}
