@@ -71,10 +71,7 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void onInitializeClient() {
-		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.WEAK_FAN, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.GLASS_CHUTE, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.HEATED_CONVEYOR_BELT, RenderLayer.getCutout());
-
+		AutomotionBlocks.initClient();
 		AutomotionEntities.initClient();
 		AutomotionNetworking.initClient();
 

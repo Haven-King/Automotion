@@ -56,7 +56,7 @@ public class SteamCloudEntity extends AutomotionEntity {
 
 //		this.move(MovementType.SELF, this.getVelocity());
 
-		for (SteamCloudEntity entity : this.world.getEntities(AutomotionEntities.STEAM, this.getBoundingBox(), e -> true)) {
+		for (SteamCloudEntity entity : this.world.getEntitiesByType(AutomotionEntities.STEAM, this.getBoundingBox(), e -> true)) {
 			if (entity.temperature < this.temperature && !entity.removed && entity.temperature > 0) {
 				this.temperature++;
 				entity.temperature--;
@@ -65,7 +65,7 @@ public class SteamCloudEntity extends AutomotionEntity {
 
 		this.setVelocity(this.getVelocity().x / 2, Math.sqrt((this.temperature)) / 50D, this.getVelocity().z / 2);
 
-		for (SteamCloudEntity entity : this.world.getEntities(AutomotionEntities.STEAM, this.getBoundingBox().expand(1D, 1D, 1D), e -> true)) {
+		for (SteamCloudEntity entity : this.world.getEntitiesByType(AutomotionEntities.STEAM, this.getBoundingBox().expand(1D, 1D, 1D), e -> true)) {
 			if (entity.temperature > this.temperature && !entity.removed) {
 				this.addVelocity(
 						(entity.getX() - this.getX()) / 100,

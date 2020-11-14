@@ -1,0 +1,61 @@
+{
+  "multipart": [
+    {
+      "apply": {"model": "automotion:block/iron_duct_frame"}
+    },
+
+    {
+      "when": {"north": "true", "north_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel"}
+    },
+    {
+      "when": {"north_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel"}
+    },
+
+    {
+      "when": {"south": "true", "south_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 180}
+    },
+    {
+      "when": {"south_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 180}
+    },
+
+    {
+      "when": {"east": "true", "east_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 90}
+    },
+    {
+      "when": {"east_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 90}
+    },
+
+    {
+      "when": {"west": "true", "west_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 270}
+    },
+    {
+      "when": {"west_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 270}
+    },
+
+    {
+      "when": {"up": "true", "up_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "x": 270}
+    },
+    {
+      "when": {"up_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 180, "x": 270}
+    },
+
+    {
+      "when": {"down": "true", "down_forced": "auto"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 180, "x": 90}
+    },
+    {
+      "when": {"down_forced": "closed"},
+      "apply": {"model": "automotion:block/iron_duct_panel", "y": 180, "x": 90}
+    }
+  ]
+}

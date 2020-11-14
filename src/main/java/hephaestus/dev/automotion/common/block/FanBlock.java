@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class FanBlock extends Block implements BlockEntityProvider, Connectable {
     private final int strength;
@@ -33,10 +34,19 @@ public class FanBlock extends Block implements BlockEntityProvider, Connectable 
     }
 
     @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        Direction facing = state.get(Properties.FACING);
+        BlockState neighbor = world.getBlockState(pos.offset(facing));
+        return neighbor.getBlock() instanceof Connectable && ((Connectable)neighbor.getBlock()).canConnect(neighbor, this, facing.getOpposite());
+    }
+
+    @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
         Direction facing = state.get(Properties.FACING);
         BlockState neighbor = world.getBlockState(pos.offset(facing));
-        if (!(neighbor.getBlock() instanceof Connectable && ((Connectable)neighbor.getBlock()).canConnect(neighbor, facing.getOpposite()))) {
+        boolean bl1 = neighbor.getBlock() instanceof Connectable;
+        boolean bl2 = ((Connectable)neighbor.getBlock()).canConnect(neighbor, this, facing.getOpposite());
+        if (!(bl1 && bl2)) {
             world.breakBlock(pos, true, null);
             world.updateNeighborsAlways(pos, this);
         }
@@ -48,7 +58,7 @@ public class FanBlock extends Block implements BlockEntityProvider, Connectable 
     }
 
     @Override
-    public boolean canConnect(BlockState state, Direction direction) {
+    public boolean canConnect(BlockState state, Connectable other, Direction direction) {
         return direction == state.get(Properties.FACING);
     }
 }

@@ -55,7 +55,7 @@ public class DetectorConveyorBelt extends ConveyorBelt {
 
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		if (state.get(Properties.POWERED)) {
-			if (world.getEntities(null, new Box(pos)).isEmpty()) {
+			if (world.getEntitiesByClass(null, new Box(pos), e -> true).isEmpty()) {
 				world.setBlockState(pos, state.with(Properties.POWERED, false));
 			} else {
 				world.getBlockTickScheduler().schedule(new BlockPos(pos), this, this.getTickRate());

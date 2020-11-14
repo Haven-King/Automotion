@@ -20,11 +20,11 @@ public class AutomotionItems {
     public static final BlockItem DETECTOR_CONVEYOR_BELT = new GhostBlockItem(AutomotionBlocks.DETECTOR_CONVEYOR_BELT, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem HEATED_CONVEYOR_BELT = new GhostBlockItem(AutomotionBlocks.HEATED_CONVEYOR_BELT, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem GOLDEN_HOPPER = new BlockItem(AutomotionBlocks.GOLDEN_HOPPER, new Item.Settings().group(ITEM_GROUP));
-    public static final BlockItem IRON_CHUTE = new BlockItem(AutomotionBlocks.IRON_CHUTE, new Item.Settings().group(ITEM_GROUP));
-    public static final BlockItem IRON_CHUTE_CAP = new BlockItem(AutomotionBlocks.IRON_CHUTE_CAP, new Item.Settings().group(ITEM_GROUP));
-    public static final BlockItem GLASS_CHUTE = new BlockItem(AutomotionBlocks.GLASS_CHUTE, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem WEAK_FAN = new ConnectedBlockItem(AutomotionBlocks.WEAK_FAN, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem STRONG_FAN = new ConnectedBlockItem(AutomotionBlocks.STRONG_FAN, new Item.Settings().group(ITEM_GROUP));
+
+    public static final BlockItem IRON_DUCT = new BlockItem(AutomotionBlocks.IRON_DUCT, new Item.Settings().group(ITEM_GROUP));
+    public static final BlockItem GLASS_DUCT = new BlockItem(AutomotionBlocks.GLASS_DUCT, new Item.Settings().group(ITEM_GROUP));
 
     public static final Item WRENCH = new WrenchItem(new Item.Settings().group(ITEM_GROUP));
 
@@ -34,11 +34,11 @@ public class AutomotionItems {
         Registry.register(Registry.ITEM, newID("detector_conveyor_belt"), DETECTOR_CONVEYOR_BELT);
         Registry.register(Registry.ITEM, newID("heated_conveyor_belt"), HEATED_CONVEYOR_BELT);
         Registry.register(Registry.ITEM, newID("golden_hopper"), GOLDEN_HOPPER);
-        Registry.register(Registry.ITEM, newID("iron_chute"), IRON_CHUTE);
-        Registry.register(Registry.ITEM, newID("iron_chute_cap"), IRON_CHUTE_CAP);
-        Registry.register(Registry.ITEM, newID("glass_chute"), GLASS_CHUTE);
         Registry.register(Registry.ITEM, newID("weak_fan"), WEAK_FAN);
         Registry.register(Registry.ITEM, newID("strong_fan"), STRONG_FAN);
         Registry.register(Registry.ITEM, newID("wrench"), WRENCH);
+
+        Registry.register(Registry.ITEM, newID("iron_duct"), IRON_DUCT);
+        Registry.register(Registry.ITEM, newID("glass_duct"), GLASS_DUCT);
     }
 }

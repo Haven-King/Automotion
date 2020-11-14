@@ -1,0 +1,17 @@
+{
+	"textures": {
+		"0": "block/glass",
+		"particle": "block/glass"
+	},
+	"elements": [
+		{
+			"from": [1, 1, 0.5],
+			"to": [15, 15, 0.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 9, 8]},
+			"faces": {
+				"north": {"uv": [1, 1, 15, 15], "texture": "#0"},
+				"south": {"uv": [1, 1, 15, 15], "texture": "#0"}
+			}
+		}
+	]
+}

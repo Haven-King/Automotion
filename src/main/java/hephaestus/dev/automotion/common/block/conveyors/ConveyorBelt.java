@@ -357,7 +357,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	}
 
 	@Override
-	public boolean canConnect(BlockState state, Direction direction) {
+	public boolean canConnect(BlockState state, Connectable other, Direction direction) {
 		Direction facing = state.get(FACING);
 		return direction == facing || direction == facing.getOpposite();
 	}

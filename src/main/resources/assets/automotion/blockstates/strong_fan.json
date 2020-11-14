@@ -18,11 +18,11 @@
     },
     {
       "when": {"facing": "up"},
-      "apply": {"model": "automotion:block/fan", "x": 90}
+      "apply": {"model": "automotion:block/fan", "x": 270}
     },
     {
       "when": {"facing": "down"},
-      "apply": {"model": "automotion:block/fan", "x": 270}
+      "apply": {"model": "automotion:block/fan", "x": 90}
     }
   ]
 }
