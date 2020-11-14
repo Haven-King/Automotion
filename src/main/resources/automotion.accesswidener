@@ -1,4 +1,7 @@
 accessWidener	v1	named
-accessible  field   net/minecraft/block/entity/BlockEntity       type           Lnet/minecraft/block/entity/BlockEntityType;
-mutable     field   net/minecraft/block/entity/BlockEntity       type           Lnet/minecraft/block/entity/BlockEntityType;
-accessible  method  net/minecraft/block/BubbleColumnBlock        calculateDrag  (Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Z
+accessible  field   net/minecraft/block/entity/BlockEntity       type                Lnet/minecraft/block/entity/BlockEntityType;
+mutable     field   net/minecraft/block/entity/BlockEntity       type                Lnet/minecraft/block/entity/BlockEntityType;
+accessible  field   net/minecraft/entity/mob/MobEntity           goalSelector        Lnet/minecraft/entity/ai/goal/GoalSelector;
+accessible  method  net/minecraft/block/BubbleColumnBlock        calculateDrag       (Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Z
+accessible  field   net/minecraft/entity/Entity                  dimensions          Lnet/minecraft/entity/EntityDimensions;
+

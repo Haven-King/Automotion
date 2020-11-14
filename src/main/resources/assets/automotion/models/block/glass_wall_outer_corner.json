@@ -1,7 +1,0 @@
-{
-  "parent": "automotion:block/wall_outer_corner",
-  "textures": {
-    "1": "minecraft:block/glass",
-    "particle": "minecraft:block/glass"
-  }
-}

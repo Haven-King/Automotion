@@ -1,0 +1,28 @@
+{
+  "multipart": [
+    {
+      "when": {"facing": "north"},
+      "apply": {"model": "automotion:block/fan"}
+    },
+    {
+      "when": {"facing": "east"},
+      "apply": {"model": "automotion:block/fan", "y": 90}
+    },
+    {
+      "when": {"facing": "south"},
+      "apply": {"model": "automotion:block/fan", "y": 180}
+    },
+    {
+      "when": {"facing": "west"},
+      "apply": {"model": "automotion:block/fan", "y": 270}
+    },
+    {
+      "when": {"facing": "up"},
+      "apply": {"model": "automotion:block/fan", "x": 90}
+    },
+    {
+      "when": {"facing": "down"},
+      "apply": {"model": "automotion:block/fan", "x": 270}
+    }
+  ]
+}

@@ -1,12 +1,15 @@
 package hephaestus.dev.automotion.mixin.client.render.entity;
 
-import hephaestus.dev.automotion.block.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.item.Conveyable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +28,7 @@ public class ItemEntityRendererMixin {
 //			return itemEntity.method_27314(f);
 //		}
 //	}
-
+//
 	private ItemEntity itemEntity;
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;sin(F)F"))
 	private void captureItemEntity(ItemEntity itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
@@ -34,8 +37,8 @@ public class ItemEntityRendererMixin {
 
 	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;sin(F)F"))
 	private float dontHoverOnConveyors(float f) {
-		if (this.itemEntity.world.getBlockState(this.itemEntity.getBlockPos()).getBlock() instanceof ConveyorBelt) {
-			return -1F + MathHelper.sin(f) / 10;
+		if (((Conveyable) this.itemEntity).isBeingConveyed()) {
+			return -2.1F + MathHelper.sin(f) / 10;
 		} else {
 			return MathHelper.sin(f);
 		}

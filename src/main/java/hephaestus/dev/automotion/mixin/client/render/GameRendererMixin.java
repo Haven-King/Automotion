@@ -19,12 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(GameRenderer.class)
 @Environment(EnvType.CLIENT)
 public abstract class GameRendererMixin {
-	@Shadow public abstract Camera getCamera();
-
-	@Shadow @Final private Camera camera;
-
-	@Shadow @Final private MinecraftClient client;
-
 	@Inject(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
 	private void dontBobUnlessMovingWillingly(MatrixStack matrixStack, float f, CallbackInfo ci, PlayerEntity playerEntity) {
 		ClientPlayerEntity player = (ClientPlayerEntity)playerEntity;

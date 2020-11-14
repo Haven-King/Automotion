@@ -1,5 +1,6 @@
 package hephaestus.dev.automotion.mixin.entity;
 
+import hephaestus.dev.automotion.common.Automotion;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -7,6 +8,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
@@ -21,5 +24,10 @@ public class EntityMixin {
 	private BlockState getCurrentBlockStateIfNotAir(World world, BlockPos pos) {
 		BlockState currentState = world.getBlockState(this.blockPos);
 		return currentState.isAir() ? world.getBlockState(pos) : currentState;
+	}
+
+	@ModifyConstant(method = "checkBlockCollision", constant = @Constant(doubleValue = 0.001D))
+	private double changeFuzz(double oldFuzz) {
+		return -Automotion.FUZZ;
 	}
 }

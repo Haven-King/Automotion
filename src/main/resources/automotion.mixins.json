@@ -3,6 +3,8 @@
   "package": "hephaestus.dev.automotion.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "client.render.GameRendererMixin",
+    "client.render.WorldRendererMixin",
     "client.render.entity.ItemEntityRendererMixin"
   ],
   "injectors": {
@@ -10,10 +12,17 @@
   },
   "mixins": [
     "block.BubbleColumnBlockMixin",
+    "block.EntityShapeContextMixin",
+    "block.FluidBlockMixin",
+    "block.entity.FurnaceBlockEntityMixin",
     "block.entity.HopperBlockEntityMixin",
-    "client.render.GameRendererMixin",
     "entity.EntityMixin",
     "entity.ItemEntityMixin",
-    "item.BucketItemMixin"
+    "entity.ai.goal.EscapeDangerGoalMixin",
+    "item.BucketItemMixin",
+    "world.SerializeChunkData",
+    "world.StoreChunkData",
+    "world.TickChunks",
+    "world.UpgradeChunkData"
   ]
 }

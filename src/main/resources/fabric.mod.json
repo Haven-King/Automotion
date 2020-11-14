@@ -8,10 +8,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "hephaestus.dev.automotion.Automotion"
+      "hephaestus.dev.automotion.common.Automotion"
     ],
     "client": [
-      "hephaestus.dev.automotion.Automotion"
+      "hephaestus.dev.automotion.common.Automotion"
     ]
   },
   "accessWidener": "automotion.accesswidener",

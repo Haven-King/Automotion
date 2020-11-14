@@ -1,7 +1,0 @@
-{
-  "parent": "automotion:block/wall_inner_corner",
-  "textures": {
-    "1": "minecraft:block/iron_block",
-    "particle": "minecraft:block/iron_block"
-  }
-}
