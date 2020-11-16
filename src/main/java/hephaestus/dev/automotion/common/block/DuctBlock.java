@@ -1,9 +1,7 @@
 package hephaestus.dev.automotion.common.block;
 
-import hephaestus.dev.automotion.common.AutomotionBlocks;
 import hephaestus.dev.automotion.common.item.Conveyable;
 import hephaestus.dev.automotion.common.util.BitField;
-import hephaestus.dev.automotion.common.util.Named;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -20,8 +18,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -31,26 +27,17 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class DuctBlock extends Block implements Waterloggable, FluidDrainable, Connectable {
 	public static final EnumProperty<Drag> DRAG = EnumProperty.of("drag", Drag.class);
-	public static final EnumProperty<State> NORTH_FORCED = EnumProperty.of("north_forced", State.class);
-	public static final EnumProperty<State> SOUTH_FORCED = EnumProperty.of("south_forced", State.class);
-	public static final EnumProperty<State> EAST_FORCED = EnumProperty.of("east_forced", State.class);
-	public static final EnumProperty<State> WEST_FORCED = EnumProperty.of("west_forced", State.class);
-	public static final EnumProperty<State> UP_FORCED = EnumProperty.of("up_forced", State.class);
-	public static final EnumProperty<State> DOWN_FORCED = EnumProperty.of("down_forced", State.class);
 
-	private static final VoxelShape FRAME = VoxelShapes.union(
+	public static final VoxelShape FRAME = VoxelShapes.union(
 			createCuboidShape(0, 0, 0, 1, 1, 16),
 			createCuboidShape(15, 0, 0, 16, 1, 16),
 			createCuboidShape(15, 15, 0, 16, 16, 16),
@@ -65,12 +52,12 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 			createCuboidShape(0, 1, 15, 1, 15, 16)
 	);
 
-	private static final VoxelShape NORTH = createCuboidShape(0, 0, 0, 16, 16, 1);
-	private static final VoxelShape SOUTH = createCuboidShape(0, 0, 15, 16, 16, 16);
-	private static final VoxelShape EAST = createCuboidShape(15, 0, 0, 16, 16, 16);
-	private static final VoxelShape WEST = createCuboidShape(0, 0, 0, 1, 16, 16);
-	private static final VoxelShape UP = createCuboidShape(0, 15, 0, 16, 16, 16);
-	private static final VoxelShape DOWN = createCuboidShape(0, 0, 0, 16, 1, 16);
+	public static final VoxelShape NORTH = createCuboidShape(0, 0, 0, 16, 16, 1);
+	public static final VoxelShape SOUTH = createCuboidShape(0, 0, 15, 16, 16, 16);
+	public static final VoxelShape EAST = createCuboidShape(15, 0, 0, 16, 16, 16);
+	public static final VoxelShape WEST = createCuboidShape(0, 0, 0, 1, 16, 16);
+	public static final VoxelShape UP = createCuboidShape(0, 15, 0, 16, 16, 16);
+	public static final VoxelShape DOWN = createCuboidShape(0, 0, 0, 16, 1, 16);
 
 	private static final Map<BitField, VoxelShape> SHAPES = new HashMap<>();
 
@@ -104,12 +91,12 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 	private static VoxelShape of(BlockState state) {
 		BitField states = new BitField(0b111111);
 
-		states.set(0, state.get(NORTH_FORCED).getValue().orElse(state.get(Properties.NORTH)));
-		states.set(1, state.get(SOUTH_FORCED).getValue().orElse(state.get(Properties.SOUTH)));
-		states.set(2, state.get(EAST_FORCED).getValue().orElse(state.get(Properties.EAST)));
-		states.set(3, state.get(WEST_FORCED).getValue().orElse(state.get(Properties.WEST)));
-		states.set(4, state.get(UP_FORCED).getValue().orElse(state.get(Properties.UP)));
-		states.set(5, state.get(DOWN_FORCED).getValue().orElse(state.get(Properties.DOWN)));
+		states.set(0, state.get(Properties.NORTH));
+		states.set(1, state.get(Properties.SOUTH));
+		states.set(2, state.get(Properties.EAST));
+		states.set(3, state.get(Properties.WEST));
+		states.set(4, state.get(Properties.UP));
+		states.set(5, state.get(Properties.DOWN));
 
 		return of(states);
 	}
@@ -125,12 +112,6 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 				.with(Properties.WEST, true)
 				.with(Properties.UP, true)
 				.with(Properties.DOWN, true)
-				.with(NORTH_FORCED, State.AUTO)
-				.with(SOUTH_FORCED, State.AUTO)
-				.with(EAST_FORCED, State.AUTO)
-				.with(WEST_FORCED, State.AUTO)
-				.with(UP_FORCED, State.AUTO)
-				.with(DOWN_FORCED, State.AUTO)
 		);
 	}
 
@@ -145,13 +126,7 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 				Properties.EAST,
 				Properties.WEST,
 				Properties.UP,
-				Properties.DOWN,
-				NORTH_FORCED,
-				SOUTH_FORCED,
-				EAST_FORCED,
-				WEST_FORCED,
-				UP_FORCED,
-				DOWN_FORCED
+				Properties.DOWN
 		);
 	}
 
@@ -269,36 +244,6 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return of(state);
-	}
-
-	public enum State implements StringIdentifiable, Named {
-		OPEN("open", new TranslatableText("automotion.blockstate.open"), false),
-		CLOSED("closed", new TranslatableText("automotion.blockstate.closed"), true),
-		AUTO("auto", new TranslatableText("automotion.blockstate.auto"), null);
-
-		private final String id;
-		private final Text name;
-		private final Optional<Boolean> value;
-
-		State(String id, TranslatableText text, @Nullable Boolean b) {
-			this.id = id;
-			this.name = text;
-			this.value = Optional.ofNullable(b);
-		}
-
-		@Override
-		public String asString() {
-			return id;
-		}
-
-		@Override
-		public Text getName() {
-			return this.name;
-		}
-
-		public Optional<Boolean> getValue() {
-			return this.value;
-		}
 	}
 
 	private enum Drag implements StringIdentifiable {

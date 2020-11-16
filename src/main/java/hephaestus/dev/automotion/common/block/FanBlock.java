@@ -14,42 +14,19 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
-public class FanBlock extends Block implements BlockEntityProvider, Connectable {
+public class FanBlock extends DuctAttachmentBlock implements BlockEntityProvider {
     private final int strength;
+
     public FanBlock(Settings settings, int strength) {
         super(settings);
         this.strength = strength;
-        setDefaultState(getDefaultState().with(Properties.ENABLED, true).with(Properties.FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(Properties.ENABLED, true));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(Properties.ENABLED, Properties.FACING);
-    }
-
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(Properties.FACING, ctx.getSide().getOpposite());
-    }
-
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        Direction facing = state.get(Properties.FACING);
-        BlockState neighbor = world.getBlockState(pos.offset(facing));
-        return neighbor.getBlock() instanceof Connectable && ((Connectable)neighbor.getBlock()).canConnect(neighbor, this, facing.getOpposite());
-    }
-
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        Direction facing = state.get(Properties.FACING);
-        BlockState neighbor = world.getBlockState(pos.offset(facing));
-        boolean bl1 = neighbor.getBlock() instanceof Connectable;
-        boolean bl2 = ((Connectable)neighbor.getBlock()).canConnect(neighbor, this, facing.getOpposite());
-        if (!(bl1 && bl2)) {
-            world.breakBlock(pos, true, null);
-            world.updateNeighborsAlways(pos, this);
-        }
+        builder.add(Properties.ENABLED);
     }
 
     @Override
@@ -59,6 +36,6 @@ public class FanBlock extends Block implements BlockEntityProvider, Connectable 
 
     @Override
     public boolean canConnect(BlockState state, Connectable other, Direction direction) {
-        return direction == state.get(Properties.FACING);
+        return direction == state.get(Properties.FACING) && super.canConnect(state, other, direction);
     }
 }

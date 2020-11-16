@@ -29,6 +29,8 @@ public class AutomotionBlocks {
 
 	public static final Block IRON_DUCT = new DuctBlock(Blocks.IRON_BLOCK);
 	public static final Block GLASS_DUCT = new GlassDuctBlock(Blocks.GLASS);
+	public static final Block IRON_DUCT_OPENING = new DuctOpeningBlock(Blocks.IRON_BLOCK);
+	public static final Block IRON_DUCT_DOOR = new DuctDoorBlock(Blocks.IRON_BLOCK);
 
 	public static final BlockEntityType<GoldenHopperBlockEntity> GOLDEN_HOPPER_TYPE = BlockEntityType.Builder.create(GoldenHopperBlockEntity::new, GOLDEN_HOPPER).build(null);
 	public static final BlockEntityType<FanBlockEntity> FAN_TYPE = BlockEntityType.Builder.create(FanBlockEntity::new, WEAK_FAN, STRONG_FAN).build(null);
@@ -44,6 +46,8 @@ public class AutomotionBlocks {
 
 		Registry.register(Registry.BLOCK, newID("iron_duct"), IRON_DUCT);
 		Registry.register(Registry.BLOCK, newID("glass_duct"), GLASS_DUCT);
+		Registry.register(Registry.BLOCK, newID("iron_duct_opening"), IRON_DUCT_OPENING);
+		Registry.register(Registry.BLOCK, newID("iron_duct_door"), IRON_DUCT_DOOR);
 
 		Registry.register(Registry.BLOCK_ENTITY_TYPE, newID("golden_hopper"), GOLDEN_HOPPER_TYPE);
 		Registry.register(Registry.BLOCK_ENTITY_TYPE, newID("fan"), FAN_TYPE);
@@ -54,5 +58,6 @@ public class AutomotionBlocks {
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.HEATED_CONVEYOR_BELT, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.GLASS_DUCT, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.STRONG_FAN, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.IRON_DUCT_DOOR, RenderLayer.getCutout());
 	}
 }

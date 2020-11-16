@@ -1,4 +1,5 @@
 {
+	"parent": "block/cube_all",
 	"textures": {
 		"0": "block/hopper_inside",
 		"1": "block/hopper_outside",

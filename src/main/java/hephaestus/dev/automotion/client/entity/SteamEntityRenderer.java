@@ -32,9 +32,11 @@ public class SteamEntityRenderer extends EntityRenderer<SteamCloudEntity> {
 	public void render(SteamCloudEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		matrices.push();
 		random.setSeed(entity.getUuid().getMostSignificantBits());
-		float size = (float) ((float) MathHelper.clamp(entity.getTemperature() / 100F, 0F, 1F) - (Math.sin((entity.age + random.nextDouble()) / 7.5F) + 1) / 7.5F) - 0.01F;
+		float size = (float) ((float) MathHelper.clamp(entity.getTemperature() / 100F, 0F, 1F) - (Math.sin((entity.age + random.nextDouble() * 10) / 7.5F) + 1) / 7.5F) - 0.01F;
 
 		int c = (int) (235 - 20 * random.nextDouble());
+
+		//noinspection UnnecessaryLocalVariable
 		int r = c, g = c, b = c;
 		int a = 225;
 

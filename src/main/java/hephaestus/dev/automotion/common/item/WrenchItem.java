@@ -59,56 +59,6 @@ public class WrenchItem extends Item {
 			return use(ActionResult.SUCCESS, world, context.getPlayer().getPos());
 		}
 
-		if (blockState.getBlock() instanceof DuctBlock) {
-			if (!world.isClient) {
-				Direction direction = context.getSide();
-				Vec3d hitPos = context.getHitPos();
-
-				double d1 = hitPos.getComponentAlongAxis(direction.getAxis()) % 1;
-
-				if (Math.abs(d1) > 0.06) {
-					direction = direction.getOpposite();
-				}
-
-				Property<DuctBlock.State> property;
-
-				switch (direction) {
-					case DOWN:
-						property = DuctBlock.DOWN_FORCED;
-						break;
-					case UP:
-						property = DuctBlock.UP_FORCED;
-						break;
-					case NORTH:
-						property = DuctBlock.NORTH_FORCED;
-						break;
-					case SOUTH:
-						property = DuctBlock.SOUTH_FORCED;
-						break;
-					case WEST:
-						property = DuctBlock.WEST_FORCED;
-						break;
-					case EAST:
-						property = DuctBlock.EAST_FORCED;
-						break;
-					default:
-						throw new IllegalStateException("Unexpected value: " + direction);
-				}
-
-				DuctBlock.State old = blockState.get(property);
-				DuctBlock.State state = Automotion.isAlternate(context.getPlayer())
-						? DuctBlock.State.AUTO
-						: old == DuctBlock.State.AUTO || old == DuctBlock.State.CLOSED
-						? DuctBlock.State.OPEN
-						: DuctBlock.State.CLOSED;
-
-				world.setBlockState(pos, blockState.with(property, state));
-				context.getPlayer().sendMessage(new TranslatableText("automotion.action.set_block_state", state.getName()), true);
-			}
-
-			return use(ActionResult.SUCCESS, world, context.getPlayer().getPos());
-		}
-
 		return use(super.useOnBlock(context), world, context.getPlayer().getPos());
 	}
 

@@ -43,37 +43,20 @@ public class FanBlockEntity extends BlockEntity implements Tickable {
         if (this.getCachedState().get(Properties.ENABLED) && this.world != null) {
             this.init();
 
-            BlockHitResult result = world.raycastBlock(startPos, endPos, this.pos.offset(facing), VoxelShapes.cuboid(pushBox), this.getCachedState());
-
-            Box pushBox = this.pushBox;
-            if (result != null && result.getType() == HitResult.Type.BLOCK) {
-                pushBox = new Box(
-                        startPos.getX(),
-                        startPos.getY(),
-                        startPos.getZ(),
-                        facing.getAxis() == Direction.Axis.X
-                                ? result.getPos().x :
-                                endPos.x,
-                        facing.getAxis() == Direction.Axis.Y
-                                ? result.getPos().y :
-                                endPos.y,
-                        facing.getAxis() == Direction.Axis.Z
-                                ? result.getPos().z :
-                                endPos.z
-                        );
-            }
-
             Collection<Entity> entities = this.world.getEntitiesByType(null, pushBox, e -> true);
 
             Vec3i vec = facing.getVector();
             for (Entity entity: entities) {
-                double distance = this.getPos().getManhattanDistance(entity.getBlockPos());
-                double scale = strength / distance;
-                entity.addVelocity(
-                        vec.getX() * 0.1 * scale,
-                        vec.getY() * 0.1 * scale,
-                        vec.getZ() * 0.1 * scale
-                );
+                BlockHitResult result = world.raycast(new RaycastContext(startPos, endPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity));
+                if (result == null || !result.getType().equals(HitResult.Type.BLOCK)) {
+                    double distance = this.getPos().getManhattanDistance(entity.getBlockPos());
+                    double scale = strength / distance;
+                    entity.addVelocity(
+                            vec.getX() * 0.1 * scale,
+                            vec.getY() * 0.1 * scale,
+                            vec.getZ() * 0.1 * scale
+                    );
+                }
             }
         }
     }

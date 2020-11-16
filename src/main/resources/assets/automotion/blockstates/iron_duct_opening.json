@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "automotion:block/iron_duct_opening"
+    },
+    "facing=east": {
+      "model": "automotion:block/iron_duct_opening", "y": 90
+    },
+    "facing=south": {
+      "model": "automotion:block/iron_duct_opening", "y": 180
+    },
+    "facing=west": {
+      "model": "automotion:block/iron_duct_opening", "y": 270
+    },
+    "facing=up": {
+      "model": "automotion:block/iron_duct_opening", "x": 270
+    },
+    "facing=down": {
+      "model": "automotion:block/iron_duct_opening", "x": 90
+    }
+  }
+}

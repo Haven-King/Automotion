@@ -20,6 +20,7 @@
     "entity.ItemEntityMixin",
     "entity.ai.goal.EscapeDangerGoalMixin",
     "item.BucketItemMixin",
+    "world.DuctsCanProvidePower",
     "world.SerializeChunkData",
     "world.StoreChunkData",
     "world.TickChunks",

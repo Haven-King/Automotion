@@ -99,6 +99,8 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		if (ctx == null || ctx.getPlayer() == null) return this.getDefaultState();
+
 		Direction direction = ctx.getSide();
 		BlockPos pos = ctx.getBlockPos();
 
@@ -110,6 +112,16 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		this.updateState(world, pos, state);
+
+		BlockPos.Mutable.iterate(pos.down().north(), pos.up().south()).forEach(neighbor -> {
+			if (!neighbor.equals(pos)) {
+				BlockState neighborState = world.getBlockState(neighbor);
+
+				if (neighborState.getBlock() instanceof ConveyorBelt) {
+					neighborState.getBlock().neighborUpdate(neighborState, world, neighbor, state.getBlock(), pos, true);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -129,6 +141,20 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
 		this.updateState(world, pos, state);
+
+		BlockState newState = world.getBlockState(pos);
+
+		if (newState != state) {
+			BlockPos.Mutable.iterate(pos.down().north(), pos.up().south()).forEach(neighbor -> {
+				if (!neighbor.equals(pos)) {
+					BlockState neighborState = world.getBlockState(neighbor);
+
+					if (neighborState.getBlock() instanceof ConveyorBelt) {
+						neighborState.getBlock().neighborUpdate(neighborState, world, neighbor, block, pos, notify);
+					}
+				}
+			});
+		}
 	}
 
 	private static boolean isContinuous(BlockState state, Direction facing) {
@@ -192,7 +218,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 				return state.with(ANGLE, Angle.FLAT);
 			}
 
-			if (forwardUp.getBlock() instanceof ConveyorBelt && (forwardUp.get(FACING).equals(facing) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && forwardUp.get(ANGLE) != Angle.DOWN && (
+			if (forwardUp.getBlock() instanceof ConveyorBelt && (!forwardUp.get(FACING).equals(facing.getOpposite()) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && forwardUp.get(ANGLE) != Angle.DOWN && (
 					(backwardsDown.getBlock() instanceof ConveyorBelt && backwardsDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing.getOpposite())).isSolidBlock(world, pos))
 					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && backwards.get(ANGLE) != Angle.UP)
 					)) {
