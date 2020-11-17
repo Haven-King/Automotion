@@ -1,6 +1,7 @@
 package hephaestus.dev.automotion.common;
 
 import hephaestus.dev.automotion.common.data.BlockTemperature;
+import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
 import hephaestus.dev.automotion.common.util.ChunkDataDefinition;
 import hephaestus.dev.automotion.common.util.ChunkDataRegistry;
 import io.netty.buffer.Unpooled;
@@ -14,12 +15,15 @@ import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
 import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -34,6 +38,8 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 	public static final Logger LOG = LogManager.getLogger(MOD_NAME);
 
 	public static final Identifier ALTERNATE_PLACEMENT_ID = newID("alternate_placement");
+
+	public static ScreenHandlerType<DiamondHopperScreenHandler> DIAMOND_HOPPER;
 
 	public static final float FUZZ = 0.13F;
 
@@ -54,6 +60,8 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 		AutomotionItems.init();
 		AutomotionEntities.init();
 		AutomotionNetworking.init();
+
+		DIAMOND_HOPPER = ScreenHandlerRegistry.registerSimple(newID("diamond_hopper"), DiamondHopperScreenHandler::new);
 
 		ServerSidePacketRegistry.INSTANCE.register(ALTERNATE_PLACEMENT_ID, ((packetContext, packetByteBuf) -> {
 			PlayerEntity playerEntity = packetContext.getPlayer();

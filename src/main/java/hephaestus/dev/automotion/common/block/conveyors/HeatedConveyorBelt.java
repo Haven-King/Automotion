@@ -36,8 +36,8 @@ public class HeatedConveyorBelt extends ConveyorBelt implements HeatTickable {
 	}
 
 	public HeatedConveyorBelt(Settings settings, double speed) {
-		super(settings, speed);
-		this.setDefaultState(this.getDefaultState().with(Properties.POWERED, false).with(Properties.BOTTOM, true));
+		super(settings, speed, false);
+		this.setDefaultState(this.getDefaultState().with(Properties.POWERED, false));
 	}
 
 	@Override
@@ -48,12 +48,12 @@ public class HeatedConveyorBelt extends ConveyorBelt implements HeatTickable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return super.getPlacementState(ctx).with(Properties.POWERED, isPowered(ctx.getWorld(), ctx.getBlockPos())).with(Properties.BOTTOM, true);
+		return super.getPlacementState(ctx).with(Properties.POWERED, isPowered(ctx.getWorld(), ctx.getBlockPos()));
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		super.neighborUpdate(state.with(Properties.POWERED, isPowered(world, pos)).with(Properties.BOTTOM, true), world, pos, block, fromPos, notify);
+		super.neighborUpdate(state.with(Properties.POWERED, isPowered(world, pos)), world, pos, block, fromPos, notify);
 	}
 
 	@Override

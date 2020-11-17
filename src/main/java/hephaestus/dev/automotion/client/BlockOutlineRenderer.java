@@ -82,6 +82,6 @@ public class BlockOutlineRenderer {
 	}
 
 	public static boolean shouldHandle(BlockState state) {
-		return state.getBlock() instanceof ConveyorBelt && state.get(ConveyorBelt.ANGLE) != ConveyorBelt.Angle.FLAT;
+		return state.getBlock() instanceof ConveyorBelt && ((ConveyorBelt) state.getBlock()).canSlope && state.get(ConveyorBelt.ANGLE) != ConveyorBelt.Angle.FLAT;
 	}
 }

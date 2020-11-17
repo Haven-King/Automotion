@@ -16,8 +16,8 @@ import java.util.Random;
 
 public class DetectorConveyorBelt extends ConveyorBelt {
 	public DetectorConveyorBelt(Settings settings, double speed) {
-		super(settings, speed);
-		this.setDefaultState(this.getDefaultState().with(Properties.POWERED, false).with(Properties.BOTTOM, true));
+		super(settings, speed, false);
+		this.setDefaultState(this.getDefaultState().with(Properties.POWERED, false));
 	}
 
 	@Override

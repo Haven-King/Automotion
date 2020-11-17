@@ -191,16 +191,16 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 	private static final double MOD = 0.05;
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (state.get(WATERLOGGED) && state.get(DRAG) != Drag.NONE) {
-			if (entity instanceof ItemEntity) {
-				Vec3d center = new Vec3d(pos.getX() + 0.5, entity.getY(), pos.getZ() + 0.5);
-				double distance = entity.getPos().distanceTo(center);
-				if (distance > 0.25D) {
-					Vec3d dif = center.subtract(entity.getPos()).normalize().multiply(MOD);
-					entity.addVelocity(dif.x, dif.y, dif.z);
-				}
+		if (entity instanceof ItemEntity && entity.getVelocity().y > 0) {
+			Vec3d center = new Vec3d(pos.getX() + 0.5, entity.getY(), pos.getZ() + 0.5);
+			double distance = entity.getPos().distanceTo(center);
+			if (distance > 0.25D) {
+				Vec3d dif = center.subtract(entity.getPos()).normalize().multiply(MOD);
+				entity.addVelocity(dif.x, dif.y, dif.z);
 			}
+		}
 
+		if (state.get(WATERLOGGED) && state.get(DRAG) != Drag.NONE) {
 			entity.onBubbleColumnCollision(state.get(DRAG) == Drag.DOWN);
 
 			if (entity instanceof Conveyable) {

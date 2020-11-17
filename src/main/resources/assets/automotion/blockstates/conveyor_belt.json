@@ -1,163 +1,94 @@
 {
   "multipart": [
     {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "north", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "left|single", "facing": "north"},
       "apply": {"model": "automotion:block/conveyor_belt_left_rail"}
     },
     {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "north", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "right|single", "facing": "north"},
       "apply": {"model": "automotion:block/conveyor_belt_right_rail"}
     },
 
     {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "north", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 180, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "north", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 180, "x": 180}
-    },
-
-    {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "east", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "left|single", "facing": "east"},
       "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 90}
     },
     {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "east", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "right|single", "facing": "east"},
       "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 90}
-    },
-    {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "east", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 270, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "east", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 270, "x": 180}
     },
 
     {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "south", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "left|single", "facing": "south"},
       "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 180}
     },
     {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "south", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "right|single", "facing": "south"},
       "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 180}
     },
 
     {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "south", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_left_rail", "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "south", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_right_rail", "x": 180}
-    },
-
-    {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "west", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "left|single", "facing": "west"},
       "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 270}
     },
     {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "west", "bottom": "true"},
+      "when": {"angle": "flat", "kind": "right|single", "facing": "west"},
       "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 270}
     },
 
     {
-      "when": {"angle": "flat", "kind": "left|single", "facing": "west", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_left_rail", "y": 90, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "kind": "right|single", "facing": "west", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_right_rail", "y": 90, "x": 180}
-    },
-
-    {
-      "when": {"angle": "flat", "facing": "north", "enabled": "true", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "north", "enabled": "true"},
       "apply": {"model": "automotion:block/conveyor_belt_belt"}
     },
     {
-      "when": {"angle": "flat", "facing": "east", "enabled": "true", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "east", "enabled": "true"},
       "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 90}
     },
     {
-      "when": {"angle": "flat", "facing": "south", "enabled": "true", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "south", "enabled": "true"},
       "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 180}
     },
     {
-      "when": {"angle": "flat", "facing": "west", "enabled": "true", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "west", "enabled": "true"},
       "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 270}
     },
 
     {
-      "when": {"angle": "flat", "facing": "north", "enabled": "true", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 180, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "east", "enabled": "true", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 270, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "south", "enabled": "true", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_belt", "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "west", "enabled": "true", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_belt", "y": 90, "x": 180}
-    },
-
-    {
-      "when": {"angle": "flat", "facing": "north", "enabled": "false", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "north", "enabled": "false"},
       "apply": {"model": "automotion:block/conveyor_belt_belt_disabled"}
     },
     {
-      "when": {"angle": "flat", "facing": "east", "enabled": "false", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "east", "enabled": "false"},
       "apply": {"model": "automotion:block/conveyor_belt_belt_disabled", "y": 90}
     },
     {
-      "when": {"angle": "flat", "facing": "south", "enabled": "false", "bottom": "true"
+      "when": {"angle": "flat", "facing": "south", "enabled": "false"
       },
       "apply": {"model": "automotion:block/conveyor_belt_belt_disabled", "y": 180}
     },
     {
-      "when": {"angle": "flat", "facing": "west", "enabled": "false", "bottom": "true"
+      "when": {"angle": "flat", "facing": "west", "enabled": "false"
       },
       "apply": {"model": "automotion:block/conveyor_belt_belt_disabled", "y": 270}
     },
 
     {
-      "when": {"angle": "flat", "facing": "north", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "north"},
       "apply": {"model": "automotion:block/conveyor_belt_bottom"}
     },
     {
-      "when": {"angle": "flat", "facing": "east", "bottom": "true"},
+      "when": {"angle": "flat", "facing": "east"},
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 90}
     },
     {
-      "when": {"angle": "flat", "facing": "south", "bottom": "true"
+      "when": {"angle": "flat", "facing": "south"
       },
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 180}
     },
     {
-      "when": {"angle": "flat", "facing": "west", "bottom": "true"
+      "when": {"angle": "flat", "facing": "west"
       },
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 270}
-    },
-
-    {
-      "when": {"angle": "flat", "facing": "north", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 180, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "east", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 270, "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "south", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "x": 180}
-    },
-    {
-      "when": {"angle": "flat", "facing": "west", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 90, "x": 180}
     },
 
     {

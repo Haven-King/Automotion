@@ -1,0 +1,20 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "block/diamond_block",
+		"side": "block/diamond_block"
+	},
+	"elements": [
+		{
+			"from": [6, 4, 0],
+			"to": [10, 8, 4],
+			"faces": {
+				"north": {"uv": [6, 8, 10, 12], "texture": "#side", "cullface": "north"},
+				"east": {"uv": [12, 8, 16, 12], "texture": "#side"},
+				"west": {"uv": [0, 8, 4, 12], "texture": "#side"},
+				"up": {"uv": [6, 0, 10, 4], "texture": "#side"},
+				"down": {"uv": [6, 12, 10, 16], "texture": "#side"}
+			}
+		}
+	]
+}

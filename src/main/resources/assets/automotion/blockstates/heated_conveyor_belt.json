@@ -243,39 +243,22 @@
     },
 
     {
-      "when": {"facing": "north", "bottom": "true"},
+      "when": {"facing": "north"},
       "apply": {"model": "automotion:block/conveyor_belt_bottom"}
     },
     {
-      "when": {"facing": "east", "bottom": "true"},
+      "when": {"facing": "east"},
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 90}
     },
     {
-      "when": {"facing": "south", "bottom": "true"
+      "when": {"facing": "south"
       },
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 180}
     },
     {
-      "when": {"facing": "west", "bottom": "true"
+      "when": {"facing": "west"
       },
       "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 270}
-    },
-
-    {
-      "when": {"facing": "north", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 180, "x": 180}
-    },
-    {
-      "when": {"facing": "east", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 270, "x": 180}
-    },
-    {
-      "when": {"facing": "south", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "x": 180}
-    },
-    {
-      "when": {"facing": "west", "bottom": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_bottom", "y": 90, "x": 180}
     }
   ]
 }

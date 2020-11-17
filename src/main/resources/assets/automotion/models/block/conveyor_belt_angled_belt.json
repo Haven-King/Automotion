@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "automotion:block/conveyor_belt_reel",
 		"2": "block/iron_block",
@@ -17,8 +16,8 @@
 			}
 		},
 		{
-			"from": [0, -2.85443, 6.9476],
-			"to": [16, -0.85443, 9.04135],
+			"from": [0, -2.85443, 6.93298],
+			"to": [16, -0.85443, 9.1106],
 			"rotation": {"angle": -45, "axis": "x", "origin": [23, 9.51397, 7.99448]},
 			"faces": {
 				"north": {"uv": [0, 0, 16, 2], "rotation": 180, "texture": "#2"},

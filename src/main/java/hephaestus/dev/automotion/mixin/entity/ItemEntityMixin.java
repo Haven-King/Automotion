@@ -20,6 +20,8 @@ public abstract class ItemEntityMixin extends Entity implements Conveyable {
 
 	@Shadow public abstract boolean isFireImmune();
 
+	@Shadow public abstract void setPickupDelay(int pickupDelay);
+
 	public ItemEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
 	}
@@ -52,11 +54,12 @@ public abstract class ItemEntityMixin extends Entity implements Conveyable {
 
 	@Override
 	public boolean isBeingConveyed() {
-		return this.age - this.lastConveyed >= 15;
+		return this.age - this.lastConveyed <= 15;
 	}
 
 	@Override
 	public void convey() {
 		this.lastConveyed = this.age;
+		this.setPickupDelay(15);
 	}
 }

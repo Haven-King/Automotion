@@ -30,7 +30,7 @@ import net.minecraft.world.WorldAccess;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class ConveyorBelt extends Block implements Waterloggable, Connectable {
-	protected static final VoxelShape BOTTOM_OUTLINE = Block.createCuboidShape(0, 0, 0, 16, 3, 16);
+	protected static final VoxelShape FLAT = Block.createCuboidShape(0, 0, 0, 16, 3, 16);
 	protected static final VoxelShape TOP_OUTLINE = Block.createCuboidShape(0, 13, 0, 16, 16, 16);
 
 	protected static final VoxelShape NORTH_DOWN_SOUTH_UP;
@@ -77,24 +77,36 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	public static final EnumProperty<CenteringDirection> CENTERING_DIRECTION = EnumProperty.of("centering_direction", CenteringDirection.class);
 	public static final EnumProperty<Angle> ANGLE = EnumProperty.of("angle", Angle.class);
 	private final double speed;
+	public final boolean canSlope;
 
-	public ConveyorBelt(Settings settings, double speed) {
+	public ConveyorBelt(Settings settings, double speed, boolean canSlope) {
 		super(settings);
+		this.speed = speed;
+		this.canSlope = canSlope;
+
+		StateManager.Builder<Block, BlockState> builder = new StateManager.Builder<>(this);
+		this.appendProperties(builder);
+		this.stateManager = builder.build(Block::getDefaultState, BlockState::new);
+
 		this.setDefaultState(this.stateManager.getDefaultState()
 				.with(FACING, Direction.NORTH)
 				.with(KIND, Kind.SINGLE)
 				.with(Properties.WATERLOGGED, false)
 				.with(CENTERING_DIRECTION, CenteringDirection.CENTER)
-				.with(Properties.BOTTOM, true)
-				.with(ANGLE, Angle.FLAT)
 		);
 
-		this.speed = speed;
+		if (this.canSlope) {
+			this.setDefaultState(this.stateManager.getDefaultState().with(ANGLE, Angle.FLAT));
+		}
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(FACING, Properties.ENABLED, Properties.WATERLOGGED, KIND, CENTERING_DIRECTION, Properties.BOTTOM, ANGLE);
+		builder.add(FACING, Properties.ENABLED, Properties.WATERLOGGED, KIND, CENTERING_DIRECTION);
+
+		if (this.canSlope) {
+			builder.add(ANGLE);
+		}
 	}
 
 	@Override
@@ -106,7 +118,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 		Direction facing = Automotion.isAlternate(ctx.getPlayer()) ? ctx.getPlayerFacing().getOpposite() : ctx.getPlayerFacing();
 
-		return getAngle(getPartState(this.getDefaultState().with(FACING, facing).with(Properties.ENABLED, true), ctx.getWorld(), ctx.getBlockPos()).with(Properties.BOTTOM, direction != Direction.DOWN && (direction == Direction.UP || ctx.getHitPos().y - (double) pos.getY() <= 0.5D)).with(WATERLOGGED,ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER), ctx.getWorld(), pos);
+		return getAngle(getPartState(this.getDefaultState().with(FACING, facing).with(Properties.ENABLED, true), ctx.getWorld(), ctx.getBlockPos()).with(WATERLOGGED,ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER), ctx.getWorld(), pos);
 	}
 
 	@Override
@@ -166,16 +178,16 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 		BlockPos leftPos = pos.offset(facing.rotateYCounterclockwise());
 		BlockState leftState = world.getBlockState(leftPos);
-		boolean left = (isContinuous(leftState, facing.rotateYClockwise()) || isContinuous(leftState, facing)) && leftState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && leftState.get(ANGLE) == state.get(ANGLE);
+		boolean left = (isContinuous(leftState, facing.rotateYClockwise()) || isContinuous(leftState, facing)) && matchesAngle(leftState, state);
 
 		BlockPos rightPos = pos.offset(facing.rotateYClockwise());
 		BlockState rightState = world.getBlockState(rightPos);
-		boolean right = (isContinuous(rightState, facing.rotateYCounterclockwise()) || isContinuous(rightState, facing)) && rightState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && rightState.get(ANGLE) == state.get(ANGLE);
+		boolean right = (isContinuous(rightState, facing.rotateYCounterclockwise()) || isContinuous(rightState, facing)) && matchesAngle(rightState, state);
 
 		state = state.with(KIND, left == right && left ? Kind.MIDDLE : left == right ? Kind.SINGLE : left ? Kind.RIGHT : Kind.LEFT);
 
-		left = isContinuous(leftState, facing) && leftState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && leftState.get(ANGLE) == state.get(ANGLE);
-		right = isContinuous(rightState, facing) && rightState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && rightState.get(ANGLE) == state.get(ANGLE);
+		left = isContinuous(leftState, facing) && matchesAngle(leftState, state);
+		right = isContinuous(rightState, facing) && matchesAngle(rightState, state);
 		if (left && !right)
 			return state.with(CENTERING_DIRECTION, CenteringDirection.LEFT);
 		else if (right && !left)
@@ -185,10 +197,10 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 		else {
 			while (true) {
 				leftState = world.getBlockState(leftPos);
-				left = isContinuous(leftState, facing) && leftState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && leftState.get(ANGLE) == state.get(ANGLE);
+				left = isContinuous(leftState, facing) && matchesAngle(leftState, state);
 
 				rightState = world.getBlockState(rightPos);
-				right = isContinuous(rightState, facing) && rightState.get(Properties.BOTTOM) == state.get(Properties.BOTTOM) && rightState.get(ANGLE) == state.get(ANGLE);
+				right = isContinuous(rightState, facing) && matchesAngle(rightState, state);
 
 				if ((!left) && (!right)) {
 					return state.with(CENTERING_DIRECTION, CenteringDirection.CENTER);
@@ -204,36 +216,61 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 		}
 	}
 
-	private static BlockState getAngle(BlockState state, World world, BlockPos pos) {
-		if (state.get(Properties.BOTTOM)) {
+	private static boolean matchesAngle(BlockState state1, BlockState state2) {
+		if (state1.getBlock() instanceof ConveyorBelt && state2.getBlock() instanceof ConveyorBelt) {
+			ConveyorBelt belt1 = (ConveyorBelt) state1.getBlock();
+			ConveyorBelt belt2 = (ConveyorBelt) state2.getBlock();
+
+			return (belt1.canSlope != belt2.canSlope) || !belt1.canSlope || state1.get(ANGLE) == state2.get(ANGLE);
+		}
+
+		return false;
+	}
+
+	private BlockState getAngle(BlockState state, World world, BlockPos pos) {
+		if (this.canSlope) {
 			Direction facing = state.get(FACING);
 			BlockState forwardUp = world.getBlockState(pos.offset(facing).offset(Direction.UP));
 			BlockState backwards = world.getBlockState(pos.offset(facing.getOpposite()));
 			BlockState backwardsDown = world.getBlockState(pos.offset(facing.getOpposite()).offset(Direction.DOWN));
 			BlockState forwardDown = world.getBlockState(pos.offset(facing).offset(Direction.DOWN));
-			BlockState forward = world.getBlockState(pos.offset(facing));
+			BlockState forwards = world.getBlockState(pos.offset(facing));
 			BlockState backwardsUp = world.getBlockState(pos.offset(facing.getOpposite()).offset(Direction.UP));
 
-			if (forward.getBlock() instanceof ConveyorBelt && backwards.getBlock() instanceof ConveyorBelt && forward.get(FACING) == facing && backwards.get(FACING) == facing && backwards.get(ANGLE) != Angle.UP && forward.get(ANGLE) != Angle.DOWN) {
+			if (forwards.getBlock() instanceof ConveyorBelt && backwards.getBlock() instanceof ConveyorBelt && forwards.get(FACING) == facing && backwards.get(FACING) == facing &&
+					(!((ConveyorBelt) backwards.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP) &&
+					(!((ConveyorBelt) forwards.getBlock()).canSlope || forwards.get(ANGLE) != Angle.DOWN)) {
 				return state.with(ANGLE, Angle.FLAT);
 			}
 
-			if (forwardUp.getBlock() instanceof ConveyorBelt && (!forwardUp.get(FACING).equals(facing.getOpposite()) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && forwardUp.get(ANGLE) != Angle.DOWN && (
+			if (forwardUp.getBlock() instanceof ConveyorBelt && (!forwardUp.get(FACING).equals(facing.getOpposite()) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && (!((ConveyorBelt) forwardUp.getBlock()).canSlope || forwardUp.get(ANGLE) != Angle.DOWN) && (
 					(backwardsDown.getBlock() instanceof ConveyorBelt && backwardsDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing.getOpposite())).isSolidBlock(world, pos))
-					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && backwards.get(ANGLE) != Angle.UP)
+					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && (!((ConveyorBelt) backwardsUp.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP))
 					)) {
 				return state.with(ANGLE, Angle.UP);
 			}
 
-			if (backwardsUp.getBlock() instanceof ConveyorBelt && backwardsUp.get(FACING).equals(facing) && !world.getBlockState(pos.up()).isSolidBlock(world, pos) && backwardsUp.get(ANGLE) != Angle.UP && (
+			if (backwardsUp.getBlock() instanceof ConveyorBelt && backwardsUp.get(FACING).equals(facing) && !world.getBlockState(pos.up()).isSolidBlock(world, pos) && (!((ConveyorBelt) backwardsUp.getBlock()).canSlope || backwardsUp.get(ANGLE) != Angle.UP) && (
 					(forwardDown.getBlock() instanceof ConveyorBelt && forwardDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing)).isSolidBlock(world, pos))
-					|| (forward.getBlock() instanceof ConveyorBelt && forward.get(ANGLE) != Angle.DOWN)
+					|| (forwards.getBlock() instanceof ConveyorBelt && (!((ConveyorBelt) forwards.getBlock()).canSlope || forwards.get(ANGLE) != Angle.DOWN))
 					)) {
 				return state.with(ANGLE, Angle.DOWN);
 			}
+
+			return state.with(ANGLE, Angle.FLAT);
 		}
 
-		return state.with(ANGLE, Angle.FLAT);
+		return state;
+	}
+
+	private static boolean checkSlope(BlockState state, Angle angle) {
+		Block block = state.getBlock();
+
+		if (block instanceof ConveyorBelt && ((ConveyorBelt) block).canSlope) {
+			return state.get(ANGLE) == angle;
+		}
+
+		return angle == Angle.FLAT;
 	}
 
 	private void updateState(World world, BlockPos pos, BlockState state) {
@@ -247,14 +284,10 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		final Angle angle = state.get(ANGLE);
+		Angle angle;
 
-		if (angle == Angle.FLAT) {
-			if (state.get(Properties.BOTTOM)) {
-				return BOTTOM_OUTLINE;
-			} else {
-				return TOP_OUTLINE;
-			}
+		if (!this.canSlope || (angle = state.get(ANGLE)) == Angle.FLAT) {
+			return FLAT;
 		} else {
 			final Direction dir = state.get(FACING);
 
@@ -269,7 +302,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 			}
 		}
 
-		return BOTTOM_OUTLINE;
+		return FLAT;
 	}
 
 	private static final double threshold = 0.1D;
@@ -366,10 +399,6 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 				conveyanceVector = conveyanceVector.add(centeringVector);
 
 				if (conveyanceVector.length() > 0.1D) {
-					if (entity instanceof ItemEntity) {
-						((ItemEntity) entity).setPickupDelay(10);
-					}
-
 					entity.setVelocity(new Vec3d(conveyanceVector.x, entity.getVelocity().y, conveyanceVector.z));
 				}
 			}

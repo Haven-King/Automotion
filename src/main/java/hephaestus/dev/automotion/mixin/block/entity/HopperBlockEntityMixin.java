@@ -134,9 +134,6 @@ public abstract class HopperBlockEntityMixin extends LootableContainerBlockEntit
 
 	@Redirect(method = "extract(Lnet/minecraft/block/entity/Hopper;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/HopperBlockEntity;getInputItemEntities(Lnet/minecraft/block/entity/Hopper;)Ljava/util/List;"))
 	private static List<ItemEntity> dontPickupEntitiesIfInserterIsNotFull(Hopper hopper) {
-		BlockPos pos = new BlockPos(hopper.getHopperX(), hopper.getHopperY()+1, hopper.getHopperZ());
-		ArrayList<ItemEntity> items = new ArrayList<>();
-
 		return getInputItemEntities(hopper);
 	}
 //

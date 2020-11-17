@@ -14,6 +14,7 @@
     "block.BubbleColumnBlockMixin",
     "block.EntityShapeContextMixin",
     "block.FluidBlockMixin",
+    "block.MakeSoulSandConnectable",
     "block.entity.FurnaceBlockEntityMixin",
     "block.entity.HopperBlockEntityMixin",
     "entity.EntityMixin",
