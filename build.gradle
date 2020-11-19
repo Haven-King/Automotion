@@ -10,6 +10,13 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+repositories {
+    maven {
+        name = "dblsaiko"
+        url = "https://maven.dblsaiko.net/"
+    }
+}
+
 minecraft {
     accessWidener = file("src/main/resources/automotion.accesswidener")
 }
@@ -20,6 +27,7 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modCompile "grondag:jmx-mc116:1.15.+"
 }
 
 processResources {

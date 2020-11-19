@@ -204,7 +204,7 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 			entity.onBubbleColumnCollision(state.get(DRAG) == Drag.DOWN);
 
 			if (entity instanceof Conveyable) {
-				((Conveyable) entity).convey();
+				((Conveyable) entity).convey(Vec3d.ZERO);
 			}
 		}
 	}

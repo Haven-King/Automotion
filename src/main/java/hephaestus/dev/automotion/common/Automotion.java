@@ -1,5 +1,6 @@
 package hephaestus.dev.automotion.common;
 
+import hephaestus.dev.automotion.client.AutomotionModelProvider;
 import hephaestus.dev.automotion.common.data.BlockTemperature;
 import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
 import hephaestus.dev.automotion.common.util.ChunkDataDefinition;
@@ -13,6 +14,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
 import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
@@ -41,7 +43,7 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 
 	public static ScreenHandlerType<DiamondHopperScreenHandler> DIAMOND_HOPPER;
 
-	public static final float FUZZ = 0.13F;
+	public static final float FUZZ = 0.5F;
 
 	public static final ChunkDataDefinition<BlockTemperature> WATER_TEMPERATURE = ChunkDataRegistry.register(newID("data", "water_temperature"), BlockTemperature::new);
 
@@ -84,6 +86,8 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 		AutomotionNetworking.initClient();
 
 		KeyBindingRegistry.INSTANCE.addCategory(MOD_NAME);
+
+		ModelLoadingRegistry.INSTANCE.registerResourceProvider(rm -> new AutomotionModelProvider());
 
 		alternatePlacementKeybind = FabricKeyBinding.Builder.create(
 						ALTERNATE_PLACEMENT_ID,

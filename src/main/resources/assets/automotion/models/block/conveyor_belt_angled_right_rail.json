@@ -4,17 +4,5 @@
 		"particle": "block/iron_block"
 	},
 	"elements": [
-		{
-			"from": [15.025, -2.86443, 6.9376],
-			"to": [15.975, 21.89237, 9.05135],
-			"rotation": {"angle": -45, "axis": "x", "origin": [23, 9.51397, 7.99448]},
-			"faces": {
-				"north": {"uv": [0, 0, 0.95, 16], "rotation": 180, "texture": "#0"},
-				"east": {"uv": [0, 0, 16, 2], "rotation": 270, "texture": "#0"},
-				"south": {"uv": [0, 0, 0.95, 16], "texture": "#0"},
-				"up": {"uv": [0, 0, 0.95, 2.09375], "rotation": 180, "texture": "#0"},
-				"down": {"uv": [0, 0, 0.95, 2.09375], "rotation": 180, "texture": "#0"}
-			}
-		}
 	]
 }

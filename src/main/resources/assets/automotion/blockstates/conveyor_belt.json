@@ -93,11 +93,11 @@
 
     {
       "when": {"facing": "north", "angle": "up", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt"}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test"}
     },
     {
       "when": {"facing": "north", "angle": "up", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled"}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled"}
     },
     {
       "when": {"facing": "north", "angle": "up", "kind": "left|single"},
@@ -110,11 +110,11 @@
 
     {
       "when": {"facing": "east", "angle": "up", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt", "y": 90}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test", "y": 90}
     },
     {
       "when": {"facing": "east", "angle": "up", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 90}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 90}
     },
     {
       "when": {"facing": "east", "angle": "up", "kind": "left|single"},
@@ -127,11 +127,11 @@
 
     {
       "when": {"facing": "south", "angle": "up", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt", "y": 180}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test", "y": 180}
     },
     {
       "when": {"facing": "south", "angle": "up", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 180}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 180}
     },
     {
       "when": {"facing": "south", "angle": "up", "kind": "left|single"},
@@ -144,11 +144,11 @@
 
     {
       "when": {"facing": "west", "angle": "up", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt", "y": 270}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test", "y": 270}
     },
     {
       "when": {"facing": "west", "angle": "up", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 270}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 270}
     },
     {
       "when": {"facing": "west", "angle": "up", "kind": "left|single"},
@@ -161,11 +161,11 @@
 
     {
       "when": {"facing": "north", "angle": "down", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_reversed", "y": 180}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_reversed", "y": 180}
     },
     {
       "when": {"facing": "north", "angle": "down", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 180}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 180}
     },
     {
       "when": {"facing": "north", "angle": "down", "kind": "right|single"},
@@ -178,11 +178,11 @@
 
     {
       "when": {"facing": "east", "angle": "down", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_reversed", "y": 270}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_reversed", "y": 270}
     },
     {
       "when": {"facing": "east", "angle": "down", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 270}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 270}
     },
     {
       "when": {"facing": "east", "angle": "down", "kind": "right|single"},
@@ -195,11 +195,11 @@
 
     {
       "when": {"facing": "south", "angle": "down", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_reversed", "y": 0}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_reversed", "y": 0}
     },
     {
       "when": {"facing": "south", "angle": "down", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 0}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 0}
     },
     {
       "when": {"facing": "south", "angle": "down", "kind": "right|single"},
@@ -212,11 +212,11 @@
 
     {
       "when": {"facing": "west", "angle": "down", "enabled": "true"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_reversed", "y": 90}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_reversed", "y": 90}
     },
     {
       "when": {"facing": "west", "angle": "down", "enabled": "false"},
-      "apply": {"model": "automotion:block/conveyor_belt_angled_belt_disabled", "y": 90}
+      "apply": {"model": "automotion:block/conveyor_belt_angled_test_disabled", "y": 90}
     },
     {
       "when": {"facing": "west", "angle": "down", "kind": "right|single"},

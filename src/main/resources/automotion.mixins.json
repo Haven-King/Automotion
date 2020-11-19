@@ -3,9 +3,12 @@
   "package": "hephaestus.dev.automotion.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "client.entity.LivingEntityMixin",
     "client.render.GameRendererMixin",
     "client.render.WorldRendererMixin",
-    "client.render.entity.ItemEntityRendererMixin"
+    "client.render.entity.ItemEntityRendererMixin",
+    "client.render.entity.LivingEntityRendererMixin",
+    "client.entity.ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -19,6 +22,7 @@
     "block.entity.HopperBlockEntityMixin",
     "entity.EntityMixin",
     "entity.ItemEntityMixin",
+    "entity.PlayerEntityMixin",
     "entity.ai.goal.EscapeDangerGoalMixin",
     "item.BucketItemMixin",
     "world.DuctsCanProvidePower",

@@ -20,14 +20,9 @@ public abstract class ItemEntityMixin extends Entity implements Conveyable {
 
 	@Shadow public abstract boolean isFireImmune();
 
-	@Shadow public abstract void setPickupDelay(int pickupDelay);
-
 	public ItemEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
 	}
-
-	@Unique
-	private int lastConveyed;
 
 	@Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("TAIL"))
 	private void setStepHeight(EntityType<? extends ItemEntity> entityType, World world, CallbackInfo ci) {
@@ -50,16 +45,5 @@ public abstract class ItemEntityMixin extends Entity implements Conveyable {
 				cir.setReturnValue(false);
 			}
 		}
-	}
-
-	@Override
-	public boolean isBeingConveyed() {
-		return this.age - this.lastConveyed <= 15;
-	}
-
-	@Override
-	public void convey() {
-		this.lastConveyed = this.age;
-		this.setPickupDelay(15);
 	}
 }

@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;
@@ -245,7 +244,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 			if (forwardUp.getBlock() instanceof ConveyorBelt && (!forwardUp.get(FACING).equals(facing.getOpposite()) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && (!((ConveyorBelt) forwardUp.getBlock()).canSlope || forwardUp.get(ANGLE) != Angle.DOWN) && (
 					(backwardsDown.getBlock() instanceof ConveyorBelt && backwardsDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing.getOpposite())).isSolidBlock(world, pos))
-					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && (!((ConveyorBelt) backwardsUp.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP))
+					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && (!((ConveyorBelt) backwards.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP))
 					)) {
 				return state.with(ANGLE, Angle.UP);
 			}
@@ -308,103 +307,67 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	private static final double threshold = 0.1D;
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (state.get(Properties.ENABLED) && !entity.canAvoidTraps()) {
+		if (state.get(Properties.ENABLED) && !entity.canAvoidTraps() && entity.getY() > pos.getY()) {
 			if (entity instanceof MobEntity) {
 				((MobEntity) entity).goalSelector.disableControl(Goal.Control.MOVE);
 				((MobEntity) entity).goalSelector.disableControl(Goal.Control.JUMP);
 			}
 
-			Direction facing;
-			Box box = entity.getBoundingBox().expand(
-				0,
-				Automotion.FUZZ / 2,
-				0
-			);
+			Direction facing = state.get(FACING);
+			CenteringDirection centeringDirection = state.get(CENTERING_DIRECTION);
+			Vec3i facingVector = facing.getVector();
+			Vec3d conveyanceVector = Vec3d.of(facingVector);
 
-			box = box.offset(0, -Automotion.FUZZ / 2, 0);
+			double entityCenter;
+			double center;
+			switch (facing.getAxis()) {
+				case Z:
+					entityCenter = entity.getX();
+					center = pos.getX() + 0.5;
+					break;
 
-			int i = MathHelper.floor(box.minX);
-			int j = MathHelper.ceil(box.maxX);
-			int k = MathHelper.floor(box.minY);
-			int l = MathHelper.ceil(box.maxY);
-			int m = MathHelper.floor(box.minZ);
-			int n = MathHelper.ceil(box.maxZ);
+				case X:
+					entityCenter = entity.getZ();
+					center = pos.getZ() + 0.5;
+					break;
 
-
-			if (world.isRegionLoaded(i, k, m, j, l, n)) {
-				Vec3d conveyanceVector = Vec3d.ZERO;
-				Vec3d centeringVector = Vec3d.ZERO;
-
-				BlockPos.Mutable mutable = new BlockPos.Mutable();
-
-				for (int p = i; p < j; ++p) {
-					for (int q = k; q < l; ++q) {
-						for (int r = m; r < n; ++r) {
-							mutable.set(p, q, r);
-
-							if (world.getBlockState(mutable).getBlock() instanceof ConveyorBelt) {
-								facing = world.getBlockState(mutable).get(FACING);
-								CenteringDirection centeringDirection = world.getBlockState(mutable).get(CENTERING_DIRECTION);
-								Vec3i facingVector = facing.getVector();
-								conveyanceVector = conveyanceVector.add(Vec3d.of(facingVector));
-
-								double entityCenter;
-								double center;
-								switch (facing.getAxis()) {
-									case Z:
-										entityCenter = entity.getX();
-										center = mutable.getX() + 0.5;
-										break;
-
-									case X:
-										entityCenter = entity.getZ();
-										center = mutable.getZ() + 0.5;
-										break;
-
-									default:
-										throw new IllegalStateException("Unexpected value: " + facing);
-								}
-
-								double mod = 0.0D;
-								switch(centeringDirection) {
-									case LEFT:
-										mod -= facing == Direction.NORTH || facing == Direction.EAST ? 0.5D : -0.5D;
-										center += mod * 2;
-										break;
-
-									case RIGHT:
-										mod += facing == Direction.NORTH || facing == Direction.EAST ? 0.5D : -0.5D;
-										center += mod * 2;
-										break;
-
-									case CENTER:
-										if (entityCenter > center) {
-											mod -= 0.5D;
-										} else {
-											mod += 0.5D;
-										}
-								}
-
-
-								if (Math.abs(Math.abs(center) - Math.abs(entityCenter)) > threshold)
-									centeringVector = centeringVector.add(facing.getAxis() == Direction.Axis.Z ? mod : 0, 0, facing.getAxis() == Direction.Axis.X ? mod : 0);
-							}
-						}
-					}
-				}
-
-				centeringVector = centeringVector.normalize().multiply(0.125);
-				conveyanceVector = conveyanceVector.normalize().multiply(speed);
-
-				conveyanceVector = conveyanceVector.add(centeringVector);
-
-				if (conveyanceVector.length() > 0.1D) {
-					entity.setVelocity(new Vec3d(conveyanceVector.x, entity.getVelocity().y, conveyanceVector.z));
-				}
+				default:
+					throw new IllegalStateException("Unexpected value: " + facing);
 			}
 
-			if (entity instanceof Conveyable) {
-				((Conveyable) entity).convey();
+			double mod = 0.0D;
+			switch(centeringDirection) {
+				case LEFT:
+					mod -= facing == Direction.NORTH || facing == Direction.EAST ? 0.5D : -0.5D;
+					center += mod * 2;
+					break;
+
+				case RIGHT:
+					mod += facing == Direction.NORTH || facing == Direction.EAST ? 0.5D : -0.5D;
+					center += mod * 2;
+					break;
+
+				case CENTER:
+					if (entityCenter > center) {
+						mod -= 0.5D;
+					} else {
+						mod += 0.5D;
+					}
+			}
+
+			Vec3d centeringVector = Vec3d.ZERO;
+
+			if (Math.abs(Math.abs(center) - Math.abs(entityCenter)) > threshold) {
+				centeringVector = new Vec3d(facing.getAxis() == Direction.Axis.Z ? mod : 0, 0, facing.getAxis() == Direction.Axis.X ? mod : 0);
+			}
+
+			centeringVector = centeringVector.normalize().multiply(0.125);
+			conveyanceVector = conveyanceVector.normalize().multiply(speed);
+
+			conveyanceVector = conveyanceVector.add(centeringVector);
+
+			if (entity instanceof Conveyable && conveyanceVector.length() > 0.1D) {
+				((Conveyable) entity).convey(new Vec3d(conveyanceVector.x, entity.getVelocity() == null ? 0 : entity.getVelocity().y, conveyanceVector.z));
 			}
 		}
 

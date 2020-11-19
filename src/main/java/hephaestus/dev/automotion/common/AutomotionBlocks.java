@@ -8,7 +8,6 @@ import hephaestus.dev.automotion.common.block.conveyors.HeatedConveyorBelt;
 import hephaestus.dev.automotion.common.block.entity.DiamondHopperBlockEntity;
 import hephaestus.dev.automotion.common.block.entity.FanBlockEntity;
 import hephaestus.dev.automotion.common.block.entity.GoldenHopperBlockEntity;
-import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -16,12 +15,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.registry.Registry;
 
-import static hephaestus.dev.automotion.common.Automotion.DIAMOND_HOPPER;
 import static hephaestus.dev.automotion.common.Automotion.newID;
 
 public class AutomotionBlocks {

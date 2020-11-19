@@ -41,42 +41,42 @@ public class BlockOutlineRenderer {
 
 		// Bottom face
 		vertexConsumer.vertex(matrix4f,  x,  y,  z).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f,  x,  y + 1.494646958733065F/16F,  z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x,  y + 3/16F,  z).color(0, 0, 0, 0.4F).next();
 
 		vertexConsumer.vertex(matrix4f,  x + 1,  y,  z).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f,  x + 1,  y + 1.494646958733065F/16F,  z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x + 1,  y + 3/16F,  z).color(0, 0, 0, 0.4F).next();
 
 		vertexConsumer.vertex(matrix4f,  x,  y,  z).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f,  x + 1,  y,  z).color(0, 0, 0, 0.4F).next();
 
-		vertexConsumer.vertex(matrix4f,  x,  y + 1.494646958733065F/16F,  z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f,  x + 1,  y + 1.494646958733065F/16F,  z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x,  y + 3/16F,  z).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x + 1,  y + 3/16F,  z).color(0, 0, 0, 0.4F).next();
 
 		// Top face
-		vertexConsumer.vertex(matrix4f,  x,  y + 17.494646958733065F/16F,  z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x,  y + 1,  z + 1).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f,  x,  y + 19/16F,  z + 1).color(0, 0, 0, 0.4F).next();
 
-		vertexConsumer.vertex(matrix4f,  x + 1,  y + 17.494646958733065F/16F,  z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x + 1,  y + 1,  z + 1).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f,  x + 1,  y + 19/16F,  z + 1).color(0, 0, 0, 0.4F).next();
 
-		vertexConsumer.vertex(matrix4f,  x,  y + 17.494646958733065F/16F,  z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f,  x + 1,  y + 17.494646958733065F/16F,  z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x,  y + 1,  z + 1).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f,  x + 1,  y + 1,  z + 1).color(0, 0, 0, 0.4F).next();
 
 		vertexConsumer.vertex(matrix4f,  x,  y + 19/16F,  z + 1).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f,  x + 1,  y + 19/16F,  z + 1).color(0, 0, 0, 0.4F).next();
 
 		// Left rail
 		vertexConsumer.vertex(matrix4f, x + 1, y, z).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f, x + 1, y + 17.494646958733065F/16F, z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f, x + 1, y + 1, z + 1).color(0, 0, 0, 0.4F).next();
 
-		vertexConsumer.vertex(matrix4f, x + 1, y + 1.494646958733065F/16F, z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f, x + 1, y + 3/16F, z).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f, x + 1, y + 19/16F, z + 1).color(0, 0, 0, 0.4F).next();
 
 		// Right rail
 		vertexConsumer.vertex(matrix4f, x, y, z).color(0, 0, 0, 0.4F).next();
-		vertexConsumer.vertex(matrix4f, x, y + 17.494646958733065F/16F, z + 17.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f, x, y + 1, z + 1).color(0, 0, 0, 0.4F).next();
 
-		vertexConsumer.vertex(matrix4f, x, y + 1.494646958733065F/16F, z - 1.494646958733065F/16F).color(0, 0, 0, 0.4F).next();
+		vertexConsumer.vertex(matrix4f, x, y + 3/16F, z).color(0, 0, 0, 0.4F).next();
 		vertexConsumer.vertex(matrix4f, x, y + 19/16F, z + 1).color(0, 0, 0, 0.4F).next();
 		matrixStack.pop();
 	}
