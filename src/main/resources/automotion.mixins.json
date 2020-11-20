@@ -3,12 +3,13 @@
   "package": "hephaestus.dev.automotion.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "client.entity.ClientPlayerEntityMixin",
     "client.entity.LivingEntityMixin",
     "client.render.GameRendererMixin",
     "client.render.WorldRendererMixin",
     "client.render.entity.ItemEntityRendererMixin",
     "client.render.entity.LivingEntityRendererMixin",
-    "client.entity.ClientPlayerEntityMixin"
+    "client.world.ClientWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -29,6 +30,7 @@
     "world.SerializeChunkData",
     "world.StoreChunkData",
     "world.TickChunks",
-    "world.UpgradeChunkData"
+    "world.UpgradeChunkData",
+    "world.WorldMixin"
   ]
 }

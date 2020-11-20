@@ -1,5 +1,6 @@
 package hephaestus.dev.automotion.common.block;
 
+import hephaestus.dev.automotion.common.block.transportation.DuctBlock;
 import net.minecraft.block.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -73,6 +74,6 @@ public abstract class DuctAttachmentBlock extends Block implements Waterloggable
 
 	@Override
 	public boolean canConnect(BlockState state, Connectable other, Direction direction) {
-		return other instanceof DuctBlock;
+		return direction == state.get(Properties.FACING) && other instanceof DuctBlock;
 	}
 }

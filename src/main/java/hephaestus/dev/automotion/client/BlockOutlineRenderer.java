@@ -1,6 +1,6 @@
 package hephaestus.dev.automotion.client;
 
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;

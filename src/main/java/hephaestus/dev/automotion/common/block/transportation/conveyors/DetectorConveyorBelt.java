@@ -1,4 +1,4 @@
-package hephaestus.dev.automotion.common.block.conveyors;
+package hephaestus.dev.automotion.common.block.transportation.conveyors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

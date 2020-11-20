@@ -1,4 +1,4 @@
-package hephaestus.dev.automotion.common.block;
+package hephaestus.dev.automotion.common.block.transportation;
 
 import hephaestus.dev.automotion.common.block.entity.GoldenHopperBlockEntity;
 import net.minecraft.block.HopperBlock;

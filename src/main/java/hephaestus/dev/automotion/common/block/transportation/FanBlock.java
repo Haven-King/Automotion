@@ -1,5 +1,7 @@
-package hephaestus.dev.automotion.common.block;
+package hephaestus.dev.automotion.common.block.transportation;
 
+import hephaestus.dev.automotion.common.block.Connectable;
+import hephaestus.dev.automotion.common.block.DuctAttachmentBlock;
 import hephaestus.dev.automotion.common.block.entity.FanBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -32,10 +34,5 @@ public class FanBlock extends DuctAttachmentBlock implements BlockEntityProvider
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
         return new FanBlockEntity(this.strength);
-    }
-
-    @Override
-    public boolean canConnect(BlockState state, Connectable other, Direction direction) {
-        return direction == state.get(Properties.FACING) && super.canConnect(state, other, direction);
     }
 }

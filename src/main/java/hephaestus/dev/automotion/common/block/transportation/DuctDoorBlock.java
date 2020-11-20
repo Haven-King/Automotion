@@ -1,5 +1,6 @@
-package hephaestus.dev.automotion.common.block;
+package hephaestus.dev.automotion.common.block.transportation;
 
+import hephaestus.dev.automotion.common.block.DuctAttachmentBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

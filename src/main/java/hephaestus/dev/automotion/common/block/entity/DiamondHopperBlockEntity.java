@@ -1,8 +1,8 @@
 package hephaestus.dev.automotion.common.block.entity;
 
 import hephaestus.dev.automotion.common.AutomotionBlocks;
-import hephaestus.dev.automotion.common.block.DiamondHopperBlock;
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.DiamondHopperBlock;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HopperBlock;
@@ -99,13 +99,12 @@ public class DiamondHopperBlockEntity extends LootableContainerBlockEntity imple
 
 	@Override
 	public CompoundTag toTag(CompoundTag tag) {
-		super.toTag(tag);
 		if (!this.serializeLootTable(tag)) {
 			Inventories.toTag(tag, this.inventory);
 		}
 
 		tag.putInt("TransferCooldown", this.transferCooldown);
-		return tag;
+		return super.toTag(tag);
 	}
 
 	@Override

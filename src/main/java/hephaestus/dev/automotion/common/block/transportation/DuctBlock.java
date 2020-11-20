@@ -1,5 +1,6 @@
-package hephaestus.dev.automotion.common.block;
+package hephaestus.dev.automotion.common.block.transportation;
 
+import hephaestus.dev.automotion.common.block.Connectable;
 import hephaestus.dev.automotion.common.item.Conveyable;
 import hephaestus.dev.automotion.common.util.BitField;
 import net.fabricmc.api.EnvType;

@@ -3,6 +3,7 @@ package hephaestus.dev.automotion.common.block.entity;
 import hephaestus.dev.automotion.common.AutomotionBlocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.hit.BlockHitResult;
@@ -43,12 +44,13 @@ public class FanBlockEntity extends BlockEntity implements Tickable {
         if (this.getCachedState().get(Properties.ENABLED) && this.world != null) {
             this.init();
 
-            Collection<Entity> entities = this.world.getEntitiesByType(null, pushBox, e -> true);
+            Collection<Entity> entities = this.world.getOtherEntities(null, pushBox);
 
             Vec3i vec = facing.getVector();
+            Direction.Axis axis = facing.getAxis();
             for (Entity entity: entities) {
                 BlockHitResult result = world.raycast(new RaycastContext(startPos, endPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity));
-                if (result == null || !result.getType().equals(HitResult.Type.BLOCK)) {
+                if (result == null || isBetween(entity.getPos().getComponentAlongAxis(axis), result.getPos().getComponentAlongAxis(axis), startPos.getComponentAlongAxis(axis))) {
                     double distance = this.getPos().getManhattanDistance(entity.getBlockPos());
                     double scale = strength / distance;
                     entity.addVelocity(
@@ -59,5 +61,9 @@ public class FanBlockEntity extends BlockEntity implements Tickable {
                 }
             }
         }
+    }
+
+    private static boolean isBetween(double i, double l, double r) {
+        return (l <= i && i <= r) || (r <= i && i <= l);
     }
 }

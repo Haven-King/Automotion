@@ -1,6 +1,6 @@
 package hephaestus.dev.automotion.mixin.entity.ai.goal;
 
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.EscapeDangerGoal;
 import net.minecraft.entity.mob.PathAwareEntity;

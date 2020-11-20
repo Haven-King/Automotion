@@ -1,4 +1,4 @@
-package hephaestus.dev.automotion.common.block.conveyors;
+package hephaestus.dev.automotion.common.block.transportation.conveyors;
 
 import hephaestus.dev.automotion.common.block.HeatTickable;
 import net.fabricmc.api.EnvType;

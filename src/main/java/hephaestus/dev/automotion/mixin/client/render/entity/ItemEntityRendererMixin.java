@@ -1,15 +1,12 @@
 package hephaestus.dev.automotion.mixin.client.render.entity;
 
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.item.Conveyable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,4 +1,4 @@
-package hephaestus.dev.automotion.common.block.conveyors;
+package hephaestus.dev.automotion.common.block.transportation.conveyors;
 
 import hephaestus.dev.automotion.common.Automotion;
 import hephaestus.dev.automotion.common.block.Connectable;
@@ -112,7 +112,6 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		if (ctx == null || ctx.getPlayer() == null) return this.getDefaultState();
 
-		Direction direction = ctx.getSide();
 		BlockPos pos = ctx.getBlockPos();
 
 		Direction facing = Automotion.isAlternate(ctx.getPlayer()) ? ctx.getPlayerFacing().getOpposite() : ctx.getPlayerFacing();

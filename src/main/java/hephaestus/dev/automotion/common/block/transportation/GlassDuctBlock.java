@@ -1,14 +1,13 @@
-package hephaestus.dev.automotion.common.block;
+package hephaestus.dev.automotion.common.block.transportation;
 
+import hephaestus.dev.automotion.common.block.Connectable;
+import hephaestus.dev.automotion.common.block.transportation.DuctBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-
-import static net.minecraft.state.property.Properties.*;
-import static net.minecraft.state.property.Properties.DOWN;
 
 public class GlassDuctBlock extends DuctBlock {
 	public GlassDuctBlock(Block block) {

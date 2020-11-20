@@ -1,6 +1,6 @@
 package hephaestus.dev.automotion.mixin.world;
 
-import hephaestus.dev.automotion.common.block.DuctBlock;
+import hephaestus.dev.automotion.common.block.transportation.DuctBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.util.math.BlockPos;

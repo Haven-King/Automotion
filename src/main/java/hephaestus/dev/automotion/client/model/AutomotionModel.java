@@ -1,6 +1,6 @@
 package hephaestus.dev.automotion.client.model;
 
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
@@ -43,14 +43,7 @@ public abstract class AutomotionModel implements UnbakedModel, BakedModel, Fabri
 
 	@Override
 	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
-//		List<BakedQuad> quads = new ArrayList<>();
-//
-//		this.mesh.forEach(consumer -> {
-//			quads.add(consumer.toBakedQuad(0, SPRITES[0], false));
-//		});
-//
-//		return quads;
-		return Collections.emptyList();
+		return null;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package hephaestus.dev.automotion.mixin.block;
 
 import hephaestus.dev.automotion.common.block.Connectable;
-import hephaestus.dev.automotion.common.block.DuctBlock;
+import hephaestus.dev.automotion.common.block.transportation.DuctBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoulSandBlock;
 import net.minecraft.util.math.Direction;

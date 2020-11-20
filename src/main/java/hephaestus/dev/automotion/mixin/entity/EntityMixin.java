@@ -1,7 +1,7 @@
 package hephaestus.dev.automotion.mixin.entity;
 
 import hephaestus.dev.automotion.common.Automotion;
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.item.Conveyable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -45,6 +45,8 @@ public abstract class EntityMixin implements Conveyable {
 
 	@Shadow public abstract Vec3d getVelocity();
 
+	@Shadow public abstract void addVelocity(double deltaX, double deltaY, double deltaZ);
+
 	@Unique private int lastConveyed;
 	@Unique private int conveyedBy;
 	@Unique private Vec3d conveyance = Vec3d.ZERO;
@@ -69,9 +71,9 @@ public abstract class EntityMixin implements Conveyable {
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 
 		if (this.world.isRegionLoaded(blockPos, blockPos2)) {
-			for(int i = blockPos.getX(); i <= blockPos2.getX(); ++i) {
-				for(int j = blockPos.getY(); j <= blockPos2.getY(); ++j) {
-					for(int k = blockPos.getZ(); k <= blockPos2.getZ(); ++k) {
+			for (int i = blockPos.getX(); i <= blockPos2.getX(); ++i) {
+				for (int j = blockPos.getY(); j <= blockPos2.getY(); ++j) {
+					for (int k = blockPos.getZ(); k <= blockPos2.getZ(); ++k) {
 						mutable.set(i, j, k);
 						BlockState blockState = this.world.getBlockState(mutable);
 
@@ -91,10 +93,12 @@ public abstract class EntityMixin implements Conveyable {
 			}
 		}
 
-		this.conveyance = this.conveyance.multiply(1D/this.conveyedBy);
+		this.conveyance = this.conveyance.multiply(1D / this.conveyedBy);
+	}
 
+	public void doConveyance() {
 		if (this.conveyance.length() > 0.1) {
-			this.setVelocity(this.conveyance);
+			this.addVelocity(this.conveyance.x, this.conveyance.y, this.conveyance.z);
 		}
 
 		this.conveyedBy = 0;

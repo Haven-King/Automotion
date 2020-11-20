@@ -23,6 +23,7 @@ public class AutomotionItems {
     public static final BlockItem DIAMOND_HOPPER = new BlockItem(AutomotionBlocks.DIAMOND_HOPPER, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem WEAK_FAN = new ConnectedBlockItem(AutomotionBlocks.WEAK_FAN, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem STRONG_FAN = new ConnectedBlockItem(AutomotionBlocks.STRONG_FAN, new Item.Settings().group(ITEM_GROUP));
+    public static final BlockItem SUPER_FAN = new ConnectedBlockItem(AutomotionBlocks.SUPER_FAN, new Item.Settings().group(ITEM_GROUP));
 
     public static final BlockItem IRON_DUCT = new BlockItem(AutomotionBlocks.IRON_DUCT, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem GLASS_DUCT = new BlockItem(AutomotionBlocks.GLASS_DUCT, new Item.Settings().group(ITEM_GROUP));
@@ -40,6 +41,7 @@ public class AutomotionItems {
         Registry.register(Registry.ITEM, newID("diamond_hopper"), DIAMOND_HOPPER);
         Registry.register(Registry.ITEM, newID("weak_fan"), WEAK_FAN);
         Registry.register(Registry.ITEM, newID("strong_fan"), STRONG_FAN);
+        Registry.register(Registry.ITEM, newID("super_fan"), SUPER_FAN);
         Registry.register(Registry.ITEM, newID("wrench"), WRENCH);
 
         Registry.register(Registry.ITEM, newID("iron_duct"), IRON_DUCT);

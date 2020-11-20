@@ -1,3 +1,57 @@
 {
-  "parent": "automotion:block/iron_duct_opening"
+  "parent": "block/cube_all",
+  "textures": {
+    "0": "block/iron_block",
+    "1": "automotion:block/iron_duct_door",
+    "particle": "block/iron_block"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 7.5],
+      "to": [16, 1, 8.5],
+      "faces": {
+        "north": {"uv": [0, 15, 16, 16], "texture": "#0"},
+        "east": {"uv": [15, 15, 16, 16], "texture": "#0"},
+        "south": {"uv": [0, 15, 16, 16], "texture": "#0"},
+        "west": {"uv": [0, 15, 1, 16], "texture": "#0"},
+        "up": {"uv": [0, 15, 16, 16], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 1], "texture": "#0"}
+      }
+    },
+    {
+      "from": [0, 15, 7.5],
+      "to": [16, 16, 8.5],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 23, 8]},
+      "faces": {
+        "north": {"uv": [0, 0, 16, 1], "texture": "#0"},
+        "east": {"uv": [15, 0, 16, 1], "texture": "#0"},
+        "south": {"uv": [0, 0, 16, 1], "texture": "#0"},
+        "west": {"uv": [0, 0, 1, 1], "texture": "#0"},
+        "up": {"uv": [0, 15, 16, 16], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 1], "texture": "#0"}
+      }
+    },
+    {
+      "from": [0, 1, 7.5],
+      "to": [1, 15, 8.5],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 9, 8]},
+      "faces": {
+        "north": {"uv": [15, 1, 16, 15], "texture": "#0"},
+        "east": {"uv": [15, 1, 16, 15], "texture": "#0"},
+        "south": {"uv": [0, 1, 1, 15], "texture": "#0"},
+        "west": {"uv": [0, 1, 1, 15], "texture": "#0"}
+      }
+    },
+    {
+      "from": [15, 1, 7.5],
+      "to": [16, 15, 8.5],
+      "rotation": {"angle": 0, "axis": "y", "origin": [23, 9, 8]},
+      "faces": {
+        "north": {"uv": [0, 1, 1, 15], "texture": "#0"},
+        "east": {"uv": [15, 1, 16, 15], "texture": "#0"},
+        "south": {"uv": [15, 1, 16, 15], "texture": "#0"},
+        "west": {"uv": [0, 1, 1, 15], "texture": "#0"}
+      }
+    }
+  ]
 }

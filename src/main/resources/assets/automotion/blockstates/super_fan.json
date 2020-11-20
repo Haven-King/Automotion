@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "automotion:block/fan"
+    },
+    "facing=east": {
+      "model": "automotion:block/fan", "y": 90
+    },
+    "facing=south": {
+      "model": "automotion:block/fan", "y": 180
+    },
+    "facing=west": {
+      "model": "automotion:block/fan", "y": 270
+    },
+    "facing=up": {
+      "model": "automotion:block/fan", "x": 270
+    },
+    "facing=down": {
+      "model": "automotion:block/fan", "x": 90
+    }
+  }
+}

@@ -1,13 +1,13 @@
 package hephaestus.dev.automotion.common;
 
 import hephaestus.dev.automotion.client.gui.screen.ingame.DiamondHopperScreen;
-import hephaestus.dev.automotion.common.block.*;
-import hephaestus.dev.automotion.common.block.conveyors.ConveyorBelt;
-import hephaestus.dev.automotion.common.block.conveyors.DetectorConveyorBelt;
-import hephaestus.dev.automotion.common.block.conveyors.HeatedConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.DetectorConveyorBelt;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.HeatedConveyorBelt;
 import hephaestus.dev.automotion.common.block.entity.DiamondHopperBlockEntity;
 import hephaestus.dev.automotion.common.block.entity.FanBlockEntity;
 import hephaestus.dev.automotion.common.block.entity.GoldenHopperBlockEntity;
+import hephaestus.dev.automotion.common.block.transportation.*;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -30,6 +30,7 @@ public class AutomotionBlocks {
 	public static final Block DIAMOND_HOPPER = new DiamondHopperBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_BLOCK).nonOpaque());
 	public static final Block WEAK_FAN = new FanBlock(FabricBlockSettings.of(Material.METAL).nonOpaque(), 1);
 	public static final Block STRONG_FAN = new FanBlock(FabricBlockSettings.of(Material.METAL).nonOpaque(), 7);
+	public static final Block SUPER_FAN = new FanBlock(FabricBlockSettings.of(Material.METAL).nonOpaque(), 50);
 
 	public static final Block IRON_DUCT = new DuctBlock(Blocks.IRON_BLOCK);
 	public static final Block GLASS_DUCT = new GlassDuctBlock(Blocks.GLASS);
@@ -38,7 +39,7 @@ public class AutomotionBlocks {
 
 	public static final BlockEntityType<GoldenHopperBlockEntity> GOLDEN_HOPPER_TYPE = BlockEntityType.Builder.create(GoldenHopperBlockEntity::new, GOLDEN_HOPPER).build(null);
 	public static final BlockEntityType<DiamondHopperBlockEntity> DIAMOND_HOPPER_TYPE = BlockEntityType.Builder.create(DiamondHopperBlockEntity::new, DIAMOND_HOPPER).build(null);
-	public static final BlockEntityType<FanBlockEntity> FAN_TYPE = BlockEntityType.Builder.create(FanBlockEntity::new, WEAK_FAN, STRONG_FAN).build(null);
+	public static final BlockEntityType<FanBlockEntity> FAN_TYPE = BlockEntityType.Builder.create(FanBlockEntity::new, WEAK_FAN, STRONG_FAN, SUPER_FAN).build(null);
 
 	public static void init() {
 		Registry.register(Registry.BLOCK, newID("conveyor_belt"), CONVEYOR_BELT);
@@ -49,6 +50,7 @@ public class AutomotionBlocks {
 		Registry.register(Registry.BLOCK, newID("diamond_hopper"), DIAMOND_HOPPER);
 		Registry.register(Registry.BLOCK, newID("weak_fan"), WEAK_FAN);
 		Registry.register(Registry.BLOCK, newID("strong_fan"), STRONG_FAN);
+		Registry.register(Registry.BLOCK, newID("super_fan"), SUPER_FAN);
 
 		Registry.register(Registry.BLOCK, newID("iron_duct"), IRON_DUCT);
 		Registry.register(Registry.BLOCK, newID("glass_duct"), GLASS_DUCT);
@@ -61,11 +63,12 @@ public class AutomotionBlocks {
 	}
 
 	public static void initClient() {
-		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.WEAK_FAN, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.HEATED_CONVEYOR_BELT, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.GLASS_DUCT, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.STRONG_FAN, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.IRON_DUCT_DOOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.WEAK_FAN, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.STRONG_FAN, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(AutomotionBlocks.SUPER_FAN, RenderLayer.getCutout());
 
 		ScreenRegistry.register(Automotion.DIAMOND_HOPPER, DiamondHopperScreen::new);
 	}
