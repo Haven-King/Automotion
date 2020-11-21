@@ -92,13 +92,13 @@ public abstract class EntityMixin implements Conveyable {
 				}
 			}
 		}
-
-		this.conveyance = this.conveyance.multiply(1D / this.conveyedBy);
 	}
 
 	public void doConveyance() {
+		this.conveyance = this.conveyance.multiply(1D / this.conveyedBy);
+
 		if (this.conveyance.length() > 0.1) {
-			this.addVelocity(this.conveyance.x, this.conveyance.y, this.conveyance.z);
+			this.setVelocity(this.conveyance);
 		}
 
 		this.conveyedBy = 0;

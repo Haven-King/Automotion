@@ -1,5 +1,7 @@
 package hephaestus.dev.automotion.common;
 
+import grondag.fluidity.api.article.ArticleType;
+import grondag.fluidity.impl.article.ArticleTypeRegistryImpl;
 import hephaestus.dev.automotion.client.AutomotionModelProvider;
 import hephaestus.dev.automotion.common.data.BlockTemperature;
 import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
@@ -22,6 +24,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -42,6 +45,16 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 	public static final Identifier ALTERNATE_PLACEMENT_ID = newID("alternate_placement");
 
 	public static ScreenHandlerType<DiamondHopperScreenHandler> DIAMOND_HOPPER;
+
+	public static final ArticleType<Identifier> ENERGY = ArticleTypeRegistryImpl.INSTANCE.add("automotion:energy",
+			ArticleType.builder(Identifier.class)
+					.bulk(false)
+					.resourceTagWriter(r -> StringTag.of(r.toString()))
+					.resourceTagReader(t -> new Identifier(t.asString()))
+					.resourcePacketWriter((r, p) -> p.writeIdentifier(r))
+					.resourcePacketReader(PacketByteBuf::readIdentifier)
+					.translationKeyFunction(Identifier::toString)
+					.build());
 
 	public static final float FUZZ = 0.5F;
 
