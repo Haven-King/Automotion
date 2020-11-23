@@ -27,8 +27,8 @@ public class AutomotionItems {
 
     public static final BlockItem IRON_DUCT = new BlockItem(AutomotionBlocks.IRON_DUCT, new Item.Settings().group(ITEM_GROUP));
     public static final BlockItem GLASS_DUCT = new BlockItem(AutomotionBlocks.GLASS_DUCT, new Item.Settings().group(ITEM_GROUP));
-    public static final BlockItem IRON_DUCT_OPENING = new BlockItem(AutomotionBlocks.IRON_DUCT_OPENING, new Item.Settings().group(ITEM_GROUP));
-    public static final BlockItem IRON_DUCT_DOOR = new BlockItem(AutomotionBlocks.IRON_DUCT_DOOR, new Item.Settings().group(ITEM_GROUP));
+    public static final BlockItem IRON_DUCT_OPENING = new ConnectedBlockItem(AutomotionBlocks.IRON_DUCT_OPENING, new Item.Settings().group(ITEM_GROUP));
+    public static final BlockItem IRON_DUCT_DOOR = new ConnectedBlockItem(AutomotionBlocks.IRON_DUCT_DOOR, new Item.Settings().group(ITEM_GROUP));
 
     public static final Item WRENCH = new WrenchItem(new Item.Settings().group(ITEM_GROUP));
 

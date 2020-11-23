@@ -148,7 +148,7 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return makeConnections(this.getDefaultState(), ctx.getWorld(), ctx.getBlockPos()).with(WATERLOGGED,ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
+		return checkDrag(makeConnections(this.getDefaultState(), ctx.getWorld(), ctx.getBlockPos()).with(WATERLOGGED,ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER), ctx.getWorld(), ctx.getBlockPos());
 	}
 
 	protected BlockState makeConnections(BlockState state, World world, BlockPos pos) {
@@ -189,27 +189,6 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 		return state;
 	}
 
-	private static final double MOD = 0.05;
-	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (entity instanceof ItemEntity && entity.getVelocity().y > 0) {
-			Vec3d center = new Vec3d(pos.getX() + 0.5, entity.getY(), pos.getZ() + 0.5);
-			double distance = entity.getPos().distanceTo(center);
-			if (distance > 0.25D) {
-				Vec3d dif = center.subtract(entity.getPos()).normalize().multiply(MOD);
-				entity.addVelocity(dif.x, dif.y, dif.z);
-			}
-		}
-
-		if (state.get(WATERLOGGED) && state.get(DRAG) != Drag.NONE) {
-			entity.onBubbleColumnCollision(state.get(DRAG) == Drag.DOWN);
-
-			if (entity instanceof Conveyable) {
-				((Conveyable) entity).convey(Vec3d.ZERO);
-			}
-		}
-	}
-
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
 		world.setBlockState(pos, checkDrag(makeConnections(state, world, pos), world, pos));
@@ -247,7 +226,7 @@ public class DuctBlock extends Block implements Waterloggable, FluidDrainable, C
 		return of(state);
 	}
 
-	private enum Drag implements StringIdentifiable {
+	public enum Drag implements StringIdentifiable {
 		UP("up"),
 		DOWN("down"),
 		NONE("none");

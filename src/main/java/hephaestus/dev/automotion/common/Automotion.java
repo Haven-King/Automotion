@@ -3,7 +3,11 @@ package hephaestus.dev.automotion.common;
 import grondag.fluidity.api.article.ArticleType;
 import grondag.fluidity.impl.article.ArticleTypeRegistryImpl;
 import hephaestus.dev.automotion.client.AutomotionModelProvider;
+import hephaestus.dev.automotion.client.BlockFaceRenderers;
+import hephaestus.dev.automotion.client.BlockOutlineRenderers;
+import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.data.BlockTemperature;
+import hephaestus.dev.automotion.common.item.GhostBlockItem;
 import hephaestus.dev.automotion.common.screen.DiamondHopperScreenHandler;
 import hephaestus.dev.automotion.common.util.ChunkDataDefinition;
 import hephaestus.dev.automotion.common.util.ChunkDataRegistry;
@@ -12,7 +16,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
 import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
@@ -20,15 +23,14 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -97,6 +99,7 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 		AutomotionBlocks.initClient();
 		AutomotionEntities.initClient();
 		AutomotionNetworking.initClient();
+		GhostBlockItem.initClient();
 
 		KeyBindingRegistry.INSTANCE.addCategory(MOD_NAME);
 
@@ -121,5 +124,13 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 				ClientSidePacketRegistry.INSTANCE.sendToServer(ALTERNATE_PLACEMENT_ID, buf);
 			}
 		});
+
+
+		for (BlockState state : AutomotionBlocks.CONVEYOR_BELT.getStateManager().getStates()) {
+			if (state.get(ConveyorBelt.ANGLE) != ConveyorBelt.Angle.FLAT) {
+				BlockOutlineRenderers.put(state, ConveyorBelt.OUTLINE_RENDERER);
+				BlockFaceRenderers.put(state, ConveyorBelt.FACE_RENDERER);
+			}
+		}
 	}
 }

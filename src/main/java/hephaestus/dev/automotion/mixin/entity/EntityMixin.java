@@ -1,6 +1,7 @@
 package hephaestus.dev.automotion.mixin.entity;
 
 import hephaestus.dev.automotion.common.Automotion;
+import hephaestus.dev.automotion.common.block.transportation.DuctBlock;
 import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.item.Conveyable;
 import net.minecraft.block.Block;
@@ -30,6 +31,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static net.minecraft.state.property.Properties.WATERLOGGED;
+
 @Mixin(Entity.class)
 public abstract class EntityMixin implements Conveyable {
 	@Shadow private BlockPos blockPos;
@@ -46,6 +49,14 @@ public abstract class EntityMixin implements Conveyable {
 	@Shadow public abstract Vec3d getVelocity();
 
 	@Shadow public abstract void addVelocity(double deltaX, double deltaY, double deltaZ);
+
+	@Shadow public abstract BlockPos getBlockPos();
+
+	@Shadow public abstract double getY();
+
+	@Shadow public abstract Vec3d getPos();
+
+	@Shadow public abstract void onBubbleColumnCollision(boolean drag);
 
 	@Unique private int lastConveyed;
 	@Unique private int conveyedBy;
@@ -98,11 +109,19 @@ public abstract class EntityMixin implements Conveyable {
 		this.conveyance = this.conveyance.multiply(1D / this.conveyedBy);
 
 		if (this.conveyance.length() > 0.1) {
-			this.setVelocity(this.conveyance);
+			this.setVelocity(new Vec3d(conveyance.x, this.getVelocity().y, conveyance.z));
 		}
 
 		this.conveyedBy = 0;
 		this.conveyance = Vec3d.ZERO;
+
+		BlockPos pos = this.getBlockPos();
+		BlockState state = this.world.getBlockState(pos);
+		if (state.getBlock() instanceof DuctBlock && state.get(WATERLOGGED) && state.get(DuctBlock.DRAG) != DuctBlock.Drag.NONE) {
+			this.onBubbleColumnCollision(state.get(DuctBlock.DRAG) == DuctBlock.Drag.DOWN);
+
+			this.convey(Vec3d.ZERO);
+		}
 	}
 
 	@Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("RETURN"), cancellable = true)

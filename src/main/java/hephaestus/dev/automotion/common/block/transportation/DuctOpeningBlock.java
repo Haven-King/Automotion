@@ -37,17 +37,4 @@ public class DuctOpeningBlock extends DuctAttachmentBlock {
 			default: throw new IllegalStateException("Unexpected value: " + state.get(Properties.FACING));
 		}
 	}
-
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		switch (state.get(Properties.FACING)) {
-			case DOWN:	return DOWN;
-			case UP:	return UP;
-			case NORTH:	return NORTH;
-			case SOUTH: return SOUTH;
-			case WEST:	return WEST;
-			case EAST:	return EAST;
-			default: throw new IllegalStateException("Unexpected value: " + state.get(Properties.FACING));
-		}
-	}
 }

@@ -1,5 +1,7 @@
 package hephaestus.dev.automotion.common.block.transportation.conveyors;
 
+import hephaestus.dev.automotion.client.BlockFaceRenderer;
+import hephaestus.dev.automotion.client.BlockOutlineRenderer;
 import hephaestus.dev.automotion.common.Automotion;
 import hephaestus.dev.automotion.common.block.Connectable;
 import hephaestus.dev.automotion.common.item.Conveyable;
@@ -7,6 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -430,4 +435,141 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 			return this.type;
 		}
 	}
+
+	public static final BlockOutlineRenderer OUTLINE_RENDERER = (matrixStack, vertexConsumer, blockState, r, g, b, a) -> {
+		matrixStack.push();
+
+		matrixStack.translate(0.5, 0.5, 0.5);
+
+		switch (blockState.get(ConveyorBelt.FACING)) {
+			case EAST:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90));
+				break;
+			case NORTH:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+				break;
+			case WEST:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(270));
+				break;
+		}
+
+
+		if (blockState.get(ConveyorBelt.ANGLE) == Angle.DOWN) {
+			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+		}
+
+//		matrixStack.translate(-0.5, -0.5, -0.5);
+
+
+		Matrix4f matrix4f = matrixStack.peek().getModel();
+
+		matrixStack.translate(-0.5, -0.5, -0.5);
+
+
+		// Front face
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+
+		// Back face
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+
+		// Left rail
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+
+		// Right rail
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+		matrixStack.pop();
+	};
+
+	public static final BlockFaceRenderer FACE_RENDERER = (matrixStack, vertexConsumer, blockState, r, g, b, a) -> {
+		matrixStack.push();
+
+		matrixStack.translate(0.5, 0.5, 0.5);
+
+		switch (blockState.get(ConveyorBelt.FACING)) {
+			case EAST:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90));
+				break;
+			case NORTH:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+				break;
+			case WEST:
+				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(270));
+				break;
+		}
+
+		if (blockState.get(ConveyorBelt.ANGLE) == Angle.DOWN) {
+			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+		}
+
+		matrixStack.translate(-0.5, -0.5, -0.5);
+
+		Matrix4f matrix4f = matrixStack.peek().getModel();
+
+		// Front face
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+
+		// Back face
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+
+		// Left rail
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+
+		// Right rail
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+
+		// Top face
+		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
+
+		// Bottom face
+		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
+		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
+
+
+		matrixStack.pop();
+	};
 }
