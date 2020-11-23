@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class AngledConveyorModel extends AutomotionModel {
 	private static final SpriteIdentifier[] SPRITE_IDENTIFIERS = new SpriteIdentifier[] {
-			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("minecraft:block/iron_block")),
+			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("automotion:block/steel_block")),
 			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("automotion:block/conveyor_belt_reel")),
 			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("minecraft:block/black_wool")),
 	};

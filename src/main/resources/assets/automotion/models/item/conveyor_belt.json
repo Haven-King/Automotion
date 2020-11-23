@@ -2,7 +2,7 @@
 	"parent": "block/cube_all",
 	"textures": {
 		"1": "automotion:block/conveyor_belt_reel",
-		"2": "minecraft:block/iron_block"
+		"2": "automotion:block/steel_block"
 	},
 	"elements": [
 		{

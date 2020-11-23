@@ -1,9 +1,9 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"0": "block/iron_block",
+		"0": "automotion:block/steel_block",
 		"1": "automotion:block/iron_duct_door",
-		"particle": "block/iron_block"
+		"particle": "automotion:block/steel_block"
 	},
 	"elements": [
 		{

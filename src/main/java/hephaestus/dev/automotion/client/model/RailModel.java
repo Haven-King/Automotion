@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class RailModel extends AutomotionModel {
 	private static final SpriteIdentifier[] SPRITE_IDENTIFIERS = new SpriteIdentifier[] {
-			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("minecraft:block/iron_block"))
+			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("automotion:block/conveyor_belt_rail"))
 	};
 
 	private final Side side;
@@ -65,71 +65,71 @@ public class RailModel extends AutomotionModel {
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 1, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 0);
+				emitter.pos(0, 1, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 13);
 				emitter.pos(1, 1, 3/16F, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 16);
 				emitter.pos(2, 15/16F, 3/16F, 0).spriteColor(2, 0, -1).sprite(2, 0, 1, 16);
-				emitter.pos(3, 15/16F, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 1, 0);
+				emitter.pos(3, 15/16F, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 1, 13);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 1, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 0);
-				emitter.pos(1, 1, 17/16F, 1).spriteColor(1, 0, -1).sprite(1, 0, 0, 2);
-				emitter.pos(2, 1, 1/16F, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 2);
-				emitter.pos(3, 1, 3/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 16, 0);
+				emitter.pos(0, 1, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 13);
+				emitter.pos(1, 1, 1F, 1).spriteColor(1, 0, -1).sprite(1, 0, 0, 16);
+				emitter.pos(2, 1, 0, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 16);
+				emitter.pos(3, 1, 3/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 16, 13);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 1, 17/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 16);
-				emitter.pos(1, 1, 1, 1).spriteColor(1, 0, -1).sprite(1, 0, 0, 15);
-				emitter.pos(2, 1, 0, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 15);
-				emitter.pos(3, 1, 1/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 16, 16);
+//				emitter.pos(0, 1, 17/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 16);
+//				emitter.pos(1, 1, 1, 1).spriteColor(1, 0, -1).sprite(1, 0, 0, 15);
+//				emitter.pos(2, 1, 0, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 15);
+//				emitter.pos(3, 1, 1/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 16, 16);
 
-				emitter.spriteBake(0, SPRITES[0], 0);
-				emitter.emit();
+//				emitter.spriteBake(0, SPRITES[0], 0);
+//				emitter.emit();
 
 				break;
 			case RIGHT:
-				emitter.pos(0, 1/16F, 3/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 15, 13);
-				emitter.pos(1, 1/16F, 0, 0).spriteColor(1, 0, -1).sprite(1, 0, 15, 16);
-				emitter.pos(2, 0, 0, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 16);
-				emitter.pos(3, 0, 3/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 16, 13);
+				emitter.pos(0, 1/16F, 3/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 0, 13);
+				emitter.pos(1, 1/16F, 0, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 16);
+				emitter.pos(2, 0, 0, 0).spriteColor(2, 0, -1).sprite(2, 0, 1, 16);
+				emitter.pos(3, 0, 3/16F, 0).spriteColor(3, 0, -1).sprite(3, 0, 1, 13);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
 				emitter.pos(0, 0, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 0, 13);
 				emitter.pos(1, 0, 1, 1).spriteColor(1, 0, -1).sprite(1, 0, 0, 16);
-				emitter.pos(2, 1/16F, 1, 1).spriteColor(2, 0, -1).sprite(2, 0, 1, 13);
-				emitter.pos(3, 1/16F, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 1, 16);
+				emitter.pos(2, 1/16F, 1, 1).spriteColor(2, 0, -1).sprite(2, 0, 1, 16);
+				emitter.pos(3, 1/16F, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 1, 13);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 1/16F, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 15, 0);
-				emitter.pos(1, 1/16F, 3/16F, 0).spriteColor(1, 0, -1).sprite(1, 0, 15, 16);
-				emitter.pos(2, 0, 3/16F, 0).spriteColor(2, 0, -1).sprite(2, 0, 16, 16);
-				emitter.pos(3, 0, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 0);
+				emitter.pos(0, 1/16F, 19/16F, 1).spriteColor(0, 0, -1).sprite(0, 0, 16, 15);
+				emitter.pos(1, 1/16F, 3/16F, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 15);
+				emitter.pos(2, 0, 3/16F, 0).spriteColor(2, 0, -1).sprite(2, 0, 0, 16);
+				emitter.pos(3, 0, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 16);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 0, 3/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 0, 0);
-				emitter.pos(1, 0, 1/16F, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 2);
-				emitter.pos(2, 0, 17/16F, 1).spriteColor(2, 0, -1).sprite(2, 0, 16, 2);
-				emitter.pos(3, 0, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 0);
+				emitter.pos(0, 0, 3/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 0, 13);
+				emitter.pos(1, 0, 0, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 16);
+				emitter.pos(2, 0, 1F, 1).spriteColor(2, 0, -1).sprite(2, 0, 16, 16);
+				emitter.pos(3, 0, 19/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 13);
 
 				emitter.spriteBake(0, SPRITES[0], 0);
 				emitter.emit();
 
-				emitter.pos(0, 0, 1/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 0, 16);
-				emitter.pos(1, 0, 0, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 15);
-				emitter.pos(2, 0, 1, 1).spriteColor(2, 0, -1).sprite(2, 0, 16, 15);
-				emitter.pos(3, 0, 17/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 16);
-
-				emitter.spriteBake(0, SPRITES[0], 0);
-				emitter.emit();
+//				emitter.pos(0, 0, 1/16F, 0).spriteColor(0, 0, -1).sprite(0, 0, 0, 16);
+//				emitter.pos(1, 0, 0, 0).spriteColor(1, 0, -1).sprite(1, 0, 0, 15);
+//				emitter.pos(2, 0, 1, 1).spriteColor(2, 0, -1).sprite(2, 0, 16, 15);
+//				emitter.pos(3, 0, 17/16F, 1).spriteColor(3, 0, -1).sprite(3, 0, 16, 16);
+//
+//				emitter.spriteBake(0, SPRITES[0], 0);
+//				emitter.emit();
 
 				break;
 		}

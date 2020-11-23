@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"0": "minecraft:block/iron_block",
-		"particle": "minecraft:block/iron_block"
+		"0": "automotion:block/steel_block",
+		"particle": "automotion:block/steel_block"
 	},
 	"elements": [
 		{
