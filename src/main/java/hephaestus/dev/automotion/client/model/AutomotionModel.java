@@ -21,15 +21,13 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 
 public abstract class AutomotionModel implements UnbakedModel, BakedModel, FabricBakedModel {
 	protected Sprite[] SPRITES;
-	protected Mesh mesh;
+	protected Mesh mesh = null;
+	protected List<BakedQuad> quads = null;
 
 	@Override
 	public boolean isVanillaAdapter() {
@@ -43,12 +41,22 @@ public abstract class AutomotionModel implements UnbakedModel, BakedModel, Fabri
 
 	@Override
 	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
-		return null;
+		if (quads == null) {
+			List<BakedQuad> quads = new ArrayList<>();
+
+			mesh.forEach(quadView -> {
+				quads.add(quadView.toBakedQuad(0, SPRITES[0], false));
+			});
+
+			this.quads = quads;
+		}
+
+		return quads;
 	}
 
 	@Override
 	public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-		if (blockState.getProperties().contains(Properties.HOPPER_FACING)) {
+		if (blockState.getProperties().contains(Properties.HORIZONTAL_FACING)) {
 			Quaternion rotate = Vector3f.POSITIVE_Y.getDegreesQuaternion(angle(blockState));
 			RenderContext.QuadTransform transform = mv -> {
 				Vector3f tmp = new Vector3f();
@@ -69,7 +77,7 @@ public abstract class AutomotionModel implements UnbakedModel, BakedModel, Fabri
 					}
 				}
 
-				mv.nominalFace(blockState.get(Properties.HOPPER_FACING));
+				mv.nominalFace(blockState.get(Properties.HORIZONTAL_FACING));
 				return true;
 			};
 
@@ -121,10 +129,10 @@ public abstract class AutomotionModel implements UnbakedModel, BakedModel, Fabri
 		return Collections.emptyList();
 	}
 
-	protected static float angle(BlockState state) {
-		float r = state.get(ConveyorBelt.ANGLE) == ConveyorBelt.Angle.UP ? 180 : 0;
+	public static float angle(BlockState state) {
+		float r = state.contains(ConveyorBelt.ANGLE) && state.get(ConveyorBelt.ANGLE) == ConveyorBelt.Angle.UP ? 180 : 0;
 
-		switch (state.get(Properties.HOPPER_FACING)) {
+		switch (state.get(Properties.HORIZONTAL_FACING)) {
 			case NORTH: return r;
 			case EAST: return r + 270;
 			case SOUTH: return r + 180;

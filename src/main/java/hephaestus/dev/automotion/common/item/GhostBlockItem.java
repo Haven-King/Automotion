@@ -1,9 +1,10 @@
 package hephaestus.dev.automotion.common.item;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import hephaestus.dev.automotion.client.AutomotionRenderLayers;
-import hephaestus.dev.automotion.client.BlockFaceRenderers;
-import hephaestus.dev.automotion.client.BlockOutlineRenderers;
 import hephaestus.dev.automotion.client.WorldRendererCallback;
+import hephaestus.dev.automotion.client.model.AutomotionModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -12,14 +13,27 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.BakedQuad;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector4f;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3i;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.List;
 
 public class GhostBlockItem extends BlockItem {
 	public GhostBlockItem(Block block, Settings settings) {
@@ -51,6 +65,13 @@ public class GhostBlockItem extends BlockItem {
 					matrixStack.translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
 					matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
 //					matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(45));
+
+					if (blockState.contains(Properties.HORIZONTAL_FACING)) {
+						matrixStack.translate(0.5, 0.5, 0.5);
+						matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(AutomotionModel.angle(blockState)));
+						matrixStack.translate(-0.5, -0.5, -0.5);
+					}
+
 					float scale = 1F - (1F / 60) + ((float) Math.sin((ticks + tickDelta) / 4.5F) / 60);
 					matrixStack.translate(-0.5 * scale, -0.5 * scale, -0.5 * scale);
 					matrixStack.scale(scale, scale, scale);
@@ -60,8 +81,7 @@ public class GhostBlockItem extends BlockItem {
 //					BakedModel model = client.getBlockRenderManager().getModel(blockState);
 //					client.getBlockRenderManager().getModelRenderer().render(client.world, model, blockState, pos, matrixStack, vertexConsumer1, false, client.world.random, 0, 1);
 
-					VertexConsumer vertexConsumer = bufferBuilders.getEffectVertexConsumers().getBuffer(AutomotionRenderLayers.TRANSLUCENT_UNLIT);
-					Matrix4f matrix4f = matrixStack.peek().getModel();
+					VertexConsumer faces = bufferBuilders.getEffectVertexConsumers().getBuffer(AutomotionRenderLayers.TRANSLUCENT_UNLIT);
 
 					boolean valid = blockState.canPlaceAt(client.world, pos) && canPlaceAt;
 
@@ -69,54 +89,125 @@ public class GhostBlockItem extends BlockItem {
 					int r = valid ? c : 255, g = valid ? 255 : c, b = valid ? 64 : 0;
 					int a = 64;
 
-					if (BlockFaceRenderers.isHandlerRegistered(blockState)) {
-						BlockFaceRenderers.render(matrixStack, vertexConsumer, blockState, r, g, b, a);
-						VertexConsumer lines = bufferBuilders.getEffectVertexConsumers().getBuffer(RenderLayer.LINES);
-						BlockOutlineRenderers.render(matrixStack, lines, blockState, a, g, b, a * 2);
-					} else {
-						blockState.getOutlineShape(client.world, ((BlockHitResult) client.crosshairTarget).getBlockPos()).forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-							// Bottom
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) minZ).color(r, g, b, a).next();
+					BakedModel model = client.getBlockRenderManager().getModel(blockState);
+					List<BakedQuad> quads = model.getQuads(blockState, null, client.world.random);
 
-							// Top
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) minZ).color(r, g, b, a).next();
+					MatrixStack.Entry entry = matrixStack.peek();
 
-							// North
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) minZ).color(r, g, b, a).next();
+					for (BakedQuad quad : quads) {
+						int[] is = quad.getVertexData();
+						Vec3i vec3i = quad.getFace().getVector();
+						Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
+						Matrix4f matrix4f = entry.getModel();
+						vector3f.transform(entry.getNormal());
 
-							// South
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
+						int j = is.length / 8;
+						MemoryStack memoryStack = MemoryStack.stackPush();
+						Throwable var17 = null;
 
-							// East
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) minY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) maxX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
+						try {
+							ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
+							IntBuffer intBuffer = byteBuffer.asIntBuffer();
 
-							// West
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) minZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) minY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) maxZ).color(r, g, b, a).next();
-							vertexConsumer.vertex(matrix4f, (float) minX, (float) maxY, (float) minZ).color(r, g, b, a).next();
-						});
+							for(int k = 0; k < j; ++k) {
+								intBuffer.clear();
+								intBuffer.put(is, k * 8, 8);
+								float x = byteBuffer.getFloat(0);
+								float y = byteBuffer.getFloat(4);
+								float z = byteBuffer.getFloat(8);
+								float v;
+								float w;
 
-						VertexConsumer lines = bufferBuilders.getEffectVertexConsumers().getBuffer(RenderLayer.LINES);
-						blockState.getOutlineShape(client.world, pos).forEachEdge((minX, minY, minZ, maxX, maxY, maxZ) -> {
-							lines.vertex(matrix4f, (float) (minX), (float) (minY), (float) (minZ)).color(r / 2, g / 2, b / 2, a * 2).next();
-							lines.vertex(matrix4f, (float) (maxX), (float) (maxY), (float) (maxZ)).color(r / 2, g / 2, b / 2, a * 2).next();
-						});
+								int u = -1;
+								v = byteBuffer.getFloat(16);
+								w = byteBuffer.getFloat(20);
+								Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+								vector4f.transform(matrix4f);
+								faces.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+							}
+						} catch (Throwable var38) {
+							var17 = var38;
+							throw var38;
+						} finally {
+							if (var17 != null) {
+								try {
+									memoryStack.close();
+								} catch (Throwable var37) {
+									var17.addSuppressed(var37);
+								}
+							} else {
+								memoryStack.close();
+							}
+
+						}
+					}
+
+					VertexConsumer lines = bufferBuilders.getEffectVertexConsumers().getBuffer(RenderLayer.LINES);
+
+					for (BakedQuad quad : quads) {
+						int[] is = quad.getVertexData();
+						Vec3i vec3i = quad.getFace().getVector();
+						Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
+						Matrix4f matrix4f = entry.getModel();
+						vector3f.transform(entry.getNormal());
+
+						int j = is.length / 8;
+						MemoryStack memoryStack = MemoryStack.stackPush();
+						Throwable var17 = null;
+
+						try {
+							ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
+							IntBuffer intBuffer = byteBuffer.asIntBuffer();
+
+							for(int k = 0; k < j - 1; ++k) {
+								{
+									intBuffer.clear();
+									intBuffer.put(is, k * 8, 8);
+									float x = byteBuffer.getFloat(0);
+									float y = byteBuffer.getFloat(4);
+									float z = byteBuffer.getFloat(8);
+									float v;
+									float w;
+
+									int u = -1;
+									v = byteBuffer.getFloat(16);
+									w = byteBuffer.getFloat(20);
+									Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+									vector4f.transform(matrix4f);
+									lines.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r / 255F, g / 255F, b / 255F, a / 255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+								}
+								{
+									intBuffer.clear();
+									intBuffer.put(is, (k + 1) * 8, 8);
+									float x = byteBuffer.getFloat(0);
+									float y = byteBuffer.getFloat(4);
+									float z = byteBuffer.getFloat(8);
+									float v;
+									float w;
+
+									int u = -1;
+									v = byteBuffer.getFloat(16);
+									w = byteBuffer.getFloat(20);
+									Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+									vector4f.transform(matrix4f);
+									lines.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/128F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+								}
+							}
+						} catch (Throwable var38) {
+							var17 = var38;
+							throw var38;
+						} finally {
+							if (var17 != null) {
+								try {
+									memoryStack.close();
+								} catch (Throwable var37) {
+									var17.addSuppressed(var37);
+								}
+							} else {
+								memoryStack.close();
+							}
+
+						}
 					}
 
 					matrixStack.pop();

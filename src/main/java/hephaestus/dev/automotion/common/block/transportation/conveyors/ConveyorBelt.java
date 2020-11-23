@@ -76,7 +76,7 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 		EAST_UP_WEST_DOWN = shape;
 	}
 
-	public static final EnumProperty<Direction> FACING = Properties.HOPPER_FACING;
+	public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
 	public static final EnumProperty<Kind> KIND = EnumProperty.of("kind", Kind.class);
 	public static final EnumProperty<CenteringDirection> CENTERING_DIRECTION = EnumProperty.of("centering_direction", CenteringDirection.class);
 	public static final EnumProperty<Angle> ANGLE = EnumProperty.of("angle", Angle.class);
