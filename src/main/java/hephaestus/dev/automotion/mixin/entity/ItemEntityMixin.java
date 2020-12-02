@@ -51,7 +51,7 @@ public abstract class ItemEntityMixin extends Entity implements Conveyable {
 			Vec3d center = new Vec3d(pos.getX() + 0.5, this.getY(), pos.getZ() + 0.5);
 			double distance = this.getPos().distanceTo(center);
 			if (distance > 0.25D) {
-				Vec3d dif = center.subtract(this.getPos()).normalize().multiply(0.01);
+				Vec3d dif = center.subtract(this.getPos()).multiply(0.01);
 				this.addVelocity(dif.x, dif.y, dif.z);
 			}
 		}

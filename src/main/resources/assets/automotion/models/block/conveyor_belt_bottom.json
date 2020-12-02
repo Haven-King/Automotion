@@ -3,6 +3,7 @@
 		"0": "automotion:block/steel_block",
 		"particle": "automotion:block/steel_block"
 	},
+	"ambientocclusion": false,
 	"elements": [
 		{
 			"from": [0, 0.00, 0],

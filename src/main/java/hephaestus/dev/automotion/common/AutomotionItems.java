@@ -31,6 +31,7 @@ public class AutomotionItems {
     public static final BlockItem IRON_DUCT_DOOR = new ConnectedBlockItem(AutomotionBlocks.IRON_DUCT_DOOR, new Item.Settings().group(ITEM_GROUP));
 
     public static final Item WRENCH = new WrenchItem(new Item.Settings().group(ITEM_GROUP));
+    public static final Item MOLTEN_INGOT = new Item(new Item.Settings().group(ITEM_GROUP));
 
     public static void init() {
         Registry.register(Registry.ITEM, newID("conveyor_belt"), CONVEYOR_BELT);
@@ -43,6 +44,7 @@ public class AutomotionItems {
         Registry.register(Registry.ITEM, newID("strong_fan"), STRONG_FAN);
         Registry.register(Registry.ITEM, newID("super_fan"), SUPER_FAN);
         Registry.register(Registry.ITEM, newID("wrench"), WRENCH);
+        Registry.register(Registry.ITEM, newID("molten_ingot"), MOLTEN_INGOT);
 
         Registry.register(Registry.ITEM, newID("iron_duct"), IRON_DUCT);
         Registry.register(Registry.ITEM, newID("glass_duct"), GLASS_DUCT);

@@ -91,7 +91,7 @@ public abstract class AutomotionModel implements UnbakedModel, BakedModel, Fabri
 
 	@Override
 	public boolean useAmbientOcclusion() {
-		return true;
+		return false;
 	}
 
 	@Override

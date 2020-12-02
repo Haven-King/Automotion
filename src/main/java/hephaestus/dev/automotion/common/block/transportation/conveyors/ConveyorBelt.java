@@ -5,10 +5,7 @@ import hephaestus.dev.automotion.client.BlockOutlineRenderer;
 import hephaestus.dev.automotion.common.Automotion;
 import hephaestus.dev.automotion.common.block.Connectable;
 import hephaestus.dev.automotion.common.item.Conveyable;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.block.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
@@ -128,15 +125,21 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		this.updateState(world, pos, state);
 
-		BlockPos.Mutable.iterate(pos.down().north(), pos.up().south()).forEach(neighbor -> {
-			if (!neighbor.equals(pos)) {
-				BlockState neighborState = world.getBlockState(neighbor);
+		BlockPos.Mutable neighbor = new BlockPos.Mutable();
+		for (int x = -1; x < 2; ++x) {
+			for (int y = -1; y < 2; ++y) {
+				for (int z = -1; z < 2; ++z) {
+					neighbor.set(pos);
+					neighbor.move(x, y, z);
 
-				if (neighborState.getBlock() instanceof ConveyorBelt) {
-					neighborState.getBlock().neighborUpdate(neighborState, world, neighbor, state.getBlock(), pos, true);
+					BlockState neighborState = world.getBlockState(neighbor);
+
+					if (neighborState.getBlock() instanceof ConveyorBelt) {
+						neighborState.getBlock().neighborUpdate(neighborState, world, neighbor, state.getBlock(), pos, true);
+					}
 				}
 			}
-		});
+		}
 	}
 
 	@Override
@@ -247,8 +250,8 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 			}
 
 			if (forwardUp.getBlock() instanceof ConveyorBelt && (!forwardUp.get(FACING).equals(facing.getOpposite()) && !world.getBlockState(pos.up()).isSolidBlock(world, pos)) && (!((ConveyorBelt) forwardUp.getBlock()).canSlope || forwardUp.get(ANGLE) != Angle.DOWN) && (
-					(backwardsDown.getBlock() instanceof ConveyorBelt && backwardsDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing.getOpposite())).isSolidBlock(world, pos))
-					|| (backwards.getBlock() instanceof ConveyorBelt && backwards.get(FACING).equals(facing) && (!((ConveyorBelt) backwards.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP))
+					(!(backwardsDown.getBlock() instanceof ConveyorBelt) || backwardsDown.get(FACING).equals(facing) && !world.getBlockState(pos.offset(facing.getOpposite())).isSolidBlock(world, pos))
+					|| (!(backwards.getBlock() instanceof ConveyorBelt) || backwards.get(FACING).equals(facing) && (!((ConveyorBelt) backwards.getBlock()).canSlope || backwards.get(ANGLE) != Angle.UP))
 					)) {
 				return state.with(ANGLE, Angle.UP);
 			}
@@ -505,71 +508,6 @@ public class ConveyorBelt extends Block implements Waterloggable, Connectable {
 
 		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
 		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
-		matrixStack.pop();
-	};
-
-	public static final BlockFaceRenderer FACE_RENDERER = (matrixStack, vertexConsumer, blockState, r, g, b, a) -> {
-		matrixStack.push();
-
-		matrixStack.translate(0.5, 0.5, 0.5);
-
-		switch (blockState.get(ConveyorBelt.FACING)) {
-			case EAST:
-				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90));
-				break;
-			case NORTH:
-				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
-				break;
-			case WEST:
-				matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(270));
-				break;
-		}
-
-		if (blockState.get(ConveyorBelt.ANGLE) == Angle.DOWN) {
-			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
-		}
-
-		matrixStack.translate(-0.5, -0.5, -0.5);
-
-		Matrix4f matrix4f = matrixStack.peek().getModel();
-
-		// Front face
-		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
-
-		// Back face
-		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
-
-		// Left rail
-		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
-
-		// Right rail
-		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-
-		// Top face
-		vertexConsumer.vertex(matrix4f, 0, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 19 / 16F, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 19 / 16F, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 0 + 3 / 16F, 0).color(r, g, b, a).next();
-
-		// Bottom face
-		vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 0, 0).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 1, 1, 1).color(r, g, b, a).next();
-		vertexConsumer.vertex(matrix4f, 0, 1, 1).color(r, g, b, a).next();
-
-
 		matrixStack.pop();
 	};
 }

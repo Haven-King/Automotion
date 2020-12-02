@@ -3,7 +3,7 @@ package hephaestus.dev.automotion.common;
 import grondag.fluidity.api.article.ArticleType;
 import grondag.fluidity.impl.article.ArticleTypeRegistryImpl;
 import hephaestus.dev.automotion.client.AutomotionModelProvider;
-import hephaestus.dev.automotion.client.BlockFaceRenderers;
+import hephaestus.dev.automotion.client.AutomotionBlockModels;
 import hephaestus.dev.automotion.client.BlockOutlineRenderers;
 import hephaestus.dev.automotion.common.block.transportation.conveyors.ConveyorBelt;
 import hephaestus.dev.automotion.common.data.BlockTemperature;
@@ -125,11 +125,10 @@ public class Automotion implements ModInitializer, ClientModInitializer {
 			}
 		});
 
-
 		for (BlockState state : AutomotionBlocks.CONVEYOR_BELT.getStateManager().getStates()) {
 			if (state.get(ConveyorBelt.ANGLE) != ConveyorBelt.Angle.FLAT) {
 				BlockOutlineRenderers.put(state, ConveyorBelt.OUTLINE_RENDERER);
-				BlockFaceRenderers.put(state, ConveyorBelt.FACE_RENDERER);
+				AutomotionBlockModels.put(state);
 			}
 		}
 	}

@@ -5,6 +5,7 @@
 		"1": "automotion:block/conveyor_belt_rail",
 		"particle": "automotion:block/steel_block"
 	},
+	"ambientocclusion": false,
 	"elements": [
 		{
 			"from": [15, 0, -0.01],

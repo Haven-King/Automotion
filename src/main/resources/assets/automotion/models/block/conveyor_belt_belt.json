@@ -4,6 +4,7 @@
 		"1": "automotion:block/conveyor_belt_reel",
 		"particle": "minecraft:block/black_wool"
 	},
+	"ambientocclusion": false,
 	"elements": [
 		{
 			"from": [0, 0.00, 0],

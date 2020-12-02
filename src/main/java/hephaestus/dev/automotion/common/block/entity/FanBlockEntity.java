@@ -34,7 +34,7 @@ public class FanBlockEntity extends BlockEntity implements Tickable {
         if (this.getCachedState() != null && facing == null) {
             this.facing = this.getCachedState().get(Properties.FACING);
             this.startPos = Vec3d.ofCenter(this.pos).add(Vec3d.of(facing.getVector()).multiply(0.5));
-            this.endPos = startPos.add(Vec3d.of(facing.getVector()).multiply(strength)).subtract(Vec3d.of(facing.getVector()).multiply(0.5));
+            this.endPos = startPos.add(Vec3d.of(facing.getVector()).multiply(strength)).add(Vec3d.of(facing.getVector()));
             this.pushBox = new Box(this.pos.offset(facing), this.pos.offset(facing, strength).add(1, 1, 1));
         }
     }

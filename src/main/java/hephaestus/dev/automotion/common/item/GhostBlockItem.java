@@ -1,8 +1,7 @@
 package hephaestus.dev.automotion.common.item;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import hephaestus.dev.automotion.client.AutomotionRenderLayers;
+import hephaestus.dev.automotion.client.AutomotionBlockModels;
 import hephaestus.dev.automotion.client.WorldRendererCallback;
 import hephaestus.dev.automotion.client.model.AutomotionModel;
 import net.fabricmc.api.EnvType;
@@ -52,6 +51,9 @@ public class GhostBlockItem extends BlockItem {
 
 				if (blockState != null) {
 					BlockPos pos = ((BlockHitResult) client.crosshairTarget).getBlockPos();
+					BakedModel model = client.getBlockRenderManager().getModel(blockState);
+					List<BakedQuad> quads = model.getQuads(blockState, null, client.world.random);
+
 
 					boolean canPlaceAt = client.world.getBlockState(pos).canReplace(new ItemPlacementContext(client.player, Hand.MAIN_HAND, player.getStackInHand(Hand.MAIN_HAND), (BlockHitResult) client.crosshairTarget));
 
@@ -66,9 +68,12 @@ public class GhostBlockItem extends BlockItem {
 					matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
 //					matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(45));
 
-					if (blockState.contains(Properties.HORIZONTAL_FACING)) {
+					if (blockState.contains(Properties.HORIZONTAL_FACING) && AutomotionBlockModels.isHandlerRegistered(blockState)) {
 						matrixStack.translate(0.5, 0.5, 0.5);
-						matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(AutomotionModel.angle(blockState)));
+
+						float r = AutomotionModel.angle(blockState);
+
+						matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(r));
 						matrixStack.translate(-0.5, -0.5, -0.5);
 					}
 
@@ -81,7 +86,7 @@ public class GhostBlockItem extends BlockItem {
 //					BakedModel model = client.getBlockRenderManager().getModel(blockState);
 //					client.getBlockRenderManager().getModelRenderer().render(client.world, model, blockState, pos, matrixStack, vertexConsumer1, false, client.world.random, 0, 1);
 
-					VertexConsumer faces = bufferBuilders.getEffectVertexConsumers().getBuffer(AutomotionRenderLayers.TRANSLUCENT_UNLIT);
+
 
 					boolean valid = blockState.canPlaceAt(client.world, pos) && canPlaceAt;
 
@@ -89,130 +94,134 @@ public class GhostBlockItem extends BlockItem {
 					int r = valid ? c : 255, g = valid ? 255 : c, b = valid ? 64 : 0;
 					int a = 64;
 
-					BakedModel model = client.getBlockRenderManager().getModel(blockState);
-					List<BakedQuad> quads = model.getQuads(blockState, null, client.world.random);
-
 					MatrixStack.Entry entry = matrixStack.peek();
 
+					// TODO: Make this work on Fabulous graphics.
+					VertexConsumer faces = bufferBuilders.getEffectVertexConsumers().getBuffer(AutomotionRenderLayers.TRANSLUCENT_UNLIT);
 					for (BakedQuad quad : quads) {
-						int[] is = quad.getVertexData();
-						Vec3i vec3i = quad.getFace().getVector();
-						Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
-						Matrix4f matrix4f = entry.getModel();
-						vector3f.transform(entry.getNormal());
-
-						int j = is.length / 8;
-						MemoryStack memoryStack = MemoryStack.stackPush();
-						Throwable var17 = null;
-
-						try {
-							ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
-							IntBuffer intBuffer = byteBuffer.asIntBuffer();
-
-							for(int k = 0; k < j; ++k) {
-								intBuffer.clear();
-								intBuffer.put(is, k * 8, 8);
-								float x = byteBuffer.getFloat(0);
-								float y = byteBuffer.getFloat(4);
-								float z = byteBuffer.getFloat(8);
-								float v;
-								float w;
-
-								int u = -1;
-								v = byteBuffer.getFloat(16);
-								w = byteBuffer.getFloat(20);
-								Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
-								vector4f.transform(matrix4f);
-								faces.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
-							}
-						} catch (Throwable var38) {
-							var17 = var38;
-							throw var38;
-						} finally {
-							if (var17 != null) {
-								try {
-									memoryStack.close();
-								} catch (Throwable var37) {
-									var17.addSuppressed(var37);
-								}
-							} else {
-								memoryStack.close();
-							}
-
-						}
+						render(quad, entry, faces, r, g, b, a);
 					}
 
 					VertexConsumer lines = bufferBuilders.getEffectVertexConsumers().getBuffer(RenderLayer.LINES);
-
 					for (BakedQuad quad : quads) {
-						int[] is = quad.getVertexData();
-						Vec3i vec3i = quad.getFace().getVector();
-						Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
-						Matrix4f matrix4f = entry.getModel();
-						vector3f.transform(entry.getNormal());
-
-						int j = is.length / 8;
-						MemoryStack memoryStack = MemoryStack.stackPush();
-						Throwable var17 = null;
-
-						try {
-							ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
-							IntBuffer intBuffer = byteBuffer.asIntBuffer();
-
-							for(int k = 0; k < j - 1; ++k) {
-								{
-									intBuffer.clear();
-									intBuffer.put(is, k * 8, 8);
-									float x = byteBuffer.getFloat(0);
-									float y = byteBuffer.getFloat(4);
-									float z = byteBuffer.getFloat(8);
-									float v;
-									float w;
-
-									int u = -1;
-									v = byteBuffer.getFloat(16);
-									w = byteBuffer.getFloat(20);
-									Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
-									vector4f.transform(matrix4f);
-									lines.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r / 255F, g / 255F, b / 255F, a / 255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
-								}
-								{
-									intBuffer.clear();
-									intBuffer.put(is, (k + 1) * 8, 8);
-									float x = byteBuffer.getFloat(0);
-									float y = byteBuffer.getFloat(4);
-									float z = byteBuffer.getFloat(8);
-									float v;
-									float w;
-
-									int u = -1;
-									v = byteBuffer.getFloat(16);
-									w = byteBuffer.getFloat(20);
-									Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
-									vector4f.transform(matrix4f);
-									lines.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/128F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
-								}
-							}
-						} catch (Throwable var38) {
-							var17 = var38;
-							throw var38;
-						} finally {
-							if (var17 != null) {
-								try {
-									memoryStack.close();
-								} catch (Throwable var37) {
-									var17.addSuppressed(var37);
-								}
-							} else {
-								memoryStack.close();
-							}
-
-						}
+						renderLines(quad, entry, lines, r, g, b, a);
 					}
 
 					matrixStack.pop();
 				}
 			}
 		});
+	}
+
+	private static void render(BakedQuad quad, MatrixStack.Entry entry, VertexConsumer consumer, float r, float g, float b, float a) {
+		int[] is = quad.getVertexData();
+		Vec3i vec3i = quad.getFace().getVector();
+		Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
+		Matrix4f matrix4f = entry.getModel();
+		vector3f.transform(entry.getNormal());
+
+		int j = is.length / 8;
+		MemoryStack memoryStack = MemoryStack.stackPush();
+		Throwable var17 = null;
+
+		try {
+			ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
+			IntBuffer intBuffer = byteBuffer.asIntBuffer();
+
+			for(int k = 0; k < j; ++k) {
+				intBuffer.clear();
+				intBuffer.put(is, k * 8, 8);
+				float x = byteBuffer.getFloat(0);
+				float y = byteBuffer.getFloat(4);
+				float z = byteBuffer.getFloat(8);
+				float v;
+				float w;
+
+				int u = -1;
+				v = byteBuffer.getFloat(16);
+				w = byteBuffer.getFloat(20);
+				Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+				vector4f.transform(matrix4f);
+				consumer.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+			}
+		} catch (Throwable var38) {
+			var17 = var38;
+			throw var38;
+		} finally {
+			if (var17 != null) {
+				try {
+					memoryStack.close();
+				} catch (Throwable var37) {
+					var17.addSuppressed(var37);
+				}
+			} else {
+				memoryStack.close();
+			}
+		}
+	}
+
+	private static void renderLines(BakedQuad quad, MatrixStack.Entry entry, VertexConsumer consumer, float r, float g, float b, float a) {
+		int[] is = quad.getVertexData();
+		Vec3i vec3i = quad.getFace().getVector();
+		Vector3f vector3f = new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
+		Matrix4f matrix4f = entry.getModel();
+		vector3f.transform(entry.getNormal());
+
+		int j = is.length / 8;
+		MemoryStack memoryStack = MemoryStack.stackPush();
+		Throwable var17 = null;
+
+		try {
+			ByteBuffer byteBuffer = memoryStack.malloc(VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getVertexSize());
+			IntBuffer intBuffer = byteBuffer.asIntBuffer();
+
+			for(int k = 0; k < j; ++k) {
+				{
+					intBuffer.clear();
+					intBuffer.put(is, k * 8, 8);
+					float x = byteBuffer.getFloat(0);
+					float y = byteBuffer.getFloat(4);
+					float z = byteBuffer.getFloat(8);
+					float v;
+					float w;
+
+					int u = -1;
+					v = byteBuffer.getFloat(16);
+					w = byteBuffer.getFloat(20);
+					Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+					vector4f.transform(matrix4f);
+					consumer.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r / 255F, g / 255F, b / 255F, a / 255F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+				}
+				{
+					intBuffer.clear();
+					intBuffer.put(is, ((k + 1) % j) * 8, 8);
+					float x = byteBuffer.getFloat(0);
+					float y = byteBuffer.getFloat(4);
+					float z = byteBuffer.getFloat(8);
+					float v;
+					float w;
+
+					int u = -1;
+					v = byteBuffer.getFloat(16);
+					w = byteBuffer.getFloat(20);
+					Vector4f vector4f = new Vector4f(x, y, z, 1.0F);
+					vector4f.transform(matrix4f);
+					consumer.vertex(vector4f.getX(), vector4f.getY(), vector4f.getZ(), r/255F, g/255F, b/255F, a/128F, v, w, 1, u, vector3f.getX(), vector3f.getY(), vector3f.getZ());
+				}
+			}
+		} catch (Throwable var38) {
+			var17 = var38;
+			throw var38;
+		} finally {
+			if (var17 != null) {
+				try {
+					memoryStack.close();
+				} catch (Throwable var37) {
+					var17.addSuppressed(var37);
+				}
+			} else {
+				memoryStack.close();
+			}
+		}
 	}
 }
