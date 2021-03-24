@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "automotion:block/conveyor_belt",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "automotion:block/conveyor_belt",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "automotion:block/conveyor_belt",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "automotion:block/conveyor_belt",
+      "y": 270
+    }
+  }
+}

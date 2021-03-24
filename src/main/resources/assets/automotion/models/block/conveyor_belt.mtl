@@ -1,0 +1,8 @@
+newmtl conveyor
+texture automotion:block/conveyor_belt
+
+newmtl steel
+texture automotion:block/steel_block
+
+newmtl supports
+texture minecraft:block/iron_block

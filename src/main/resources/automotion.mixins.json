@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.hephaestus.automotion.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntity"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
