@@ -1,0 +1,7 @@
+newmtl conveyor
+tint_index 0
+texture automotion:block/conveyor_belt
+
+newmtl conveyor_inner
+tint_index 0
+texture automotion:block/conveyor_belt_inner

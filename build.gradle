@@ -27,8 +27,8 @@ dependencies {
     modImplementation "dev.monarkhes:myron:${project.myron_version}"
     include "dev.monarkhes:myron:${project.myron_version}"
 
-    modImplementation("io.github.LazuriteMC:rayon-core:${project.rayon_version}")
-    modImplementation("io.github.LazuriteMC:rayon-entity:${project.rayon_version}")
+//    modImplementation("io.github.LazuriteMC:rayon-core:${project.rayon_version}")
+//    modImplementation("io.github.LazuriteMC:rayon-entity:${project.rayon_version}")
 }
 
 processResources {

@@ -1,0 +1,17 @@
+{
+  "type": "automotion:substrate",
+  "config": {
+    "top_material": {
+      "Name": "minecraft:sand"
+    },
+    "under_material": {
+      "Name": "minecraft:sand"
+    },
+    "underwater_material": {
+      "Name": "minecraft:sand"
+    },
+    "substrate_material": {
+      "Name": "automotion:limestone"
+    }
+  }
+}

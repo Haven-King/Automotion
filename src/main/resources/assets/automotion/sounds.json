@@ -1,0 +1,9 @@
+{
+  "conveyor_belt": {
+    "category": "ambient",
+    "subtitle": "Conveyor belts roll nearby",
+    "sounds": [
+      "automotion:conveyor"
+    ]
+  }
+}

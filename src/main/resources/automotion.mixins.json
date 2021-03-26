@@ -4,9 +4,13 @@
   "package": "dev.hephaestus.automotion.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinEntity"
+    "entity.MixinEntity",
+    "entity.MixinItemEntity",
+    "entity.MixinServerPlayerEntity",
+    "worldgen.MixinDefaultBiomeCreator"
   ],
   "client": [
+    "client.MixinItemEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

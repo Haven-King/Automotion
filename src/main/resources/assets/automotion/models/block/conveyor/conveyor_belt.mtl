@@ -1,6 +1,3 @@
-newmtl conveyor
-texture automotion:block/conveyor_belt
-
 newmtl steel
 texture automotion:block/steel_block
 
