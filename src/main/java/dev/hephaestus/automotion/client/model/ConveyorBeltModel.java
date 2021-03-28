@@ -372,11 +372,17 @@ public class ConveyorBeltModel implements FabricBakedModel, UnbakedModel, BakedM
     private static final class Key {
         private final int code;
 
-        private Key(Direction direction, boolean... bits) {
-            int key = ((direction.getId() << bits.length));
+        private Key(Object... objects) {
+            int key = 0;
 
-            for (int i = 0; i < bits.length; ++i) {
-                if (bits[i]) key |= 0b1 << i;
+            for (Object object : objects) {
+                if (object.getClass().isEnum()) {
+                    key = key << Integer.bitCount(((Enum<?>) object).getDeclaringClass().getEnumConstants().length);
+                    key |= ((Enum<?>) object).ordinal();
+                } else if (object instanceof Boolean) {
+                    key = key << 1;
+                    key |= 0b1;
+                }
             }
 
             this.code = key;

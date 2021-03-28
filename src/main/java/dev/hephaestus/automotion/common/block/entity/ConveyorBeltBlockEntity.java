@@ -10,7 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -76,24 +76,24 @@ public class ConveyorBeltBlockEntity extends BlockEntity implements BlockEntityC
     }
 
     @Override
-    public void readNbt(CompoundTag tag) {
+    public void readNbt(NbtCompound tag) {
         this.baseSpeed = tag.getDouble("BaseSpeed");
     }
 
     @Override
-    public CompoundTag writeNbt(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putDouble("BaseSpeed", this.baseSpeed);
 
         return super.writeNbt(tag);
     }
 
     @Override
-    public void fromClientTag(CompoundTag tag) {
+    public void fromClientTag(NbtCompound tag) {
         this.baseSpeed = tag.getDouble("BaseSpeed");
     }
 
     @Override
-    public CompoundTag toClientTag(CompoundTag tag) {
+    public NbtCompound toClientTag(NbtCompound tag) {
         tag.putDouble("BaseSpeed", this.baseSpeed);
 
         return tag;

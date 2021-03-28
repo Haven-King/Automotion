@@ -1,0 +1,6 @@
+# Blender MTL File: 'Coke Oven 2.blend'
+# Material Count: 1
+
+newmtl bricks
+ambient_occlusion false
+texture automotion:block/limestone_bricks

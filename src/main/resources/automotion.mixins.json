@@ -7,7 +7,8 @@
     "entity.MixinEntity",
     "entity.MixinItemEntity",
     "entity.MixinServerPlayerEntity",
-    "worldgen.MixinDefaultBiomeCreator"
+    "worldgen.MixinDefaultBiomeCreator",
+    "worldgen.MixinDefaultSurfaceBuilder"
   ],
   "client": [
     "client.MixinItemEntityRenderer"

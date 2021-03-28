@@ -1,8 +1,10 @@
 package dev.hephaestus.automotion.common;
 
 import dev.hephaestus.automotion.Automotion;
+import dev.hephaestus.automotion.common.block.CokeOvenBlock;
 import dev.hephaestus.automotion.common.block.ConveyorBeltBlock;
 import dev.hephaestus.automotion.common.block.EntityDetectorBlock;
+import dev.hephaestus.automotion.common.block.entity.CokeOvenBlockEntity;
 import dev.hephaestus.automotion.common.block.entity.ConveyorBeltBlockEntity;
 import dev.hephaestus.automotion.common.block.entity.EntityDetectorBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -19,9 +21,12 @@ public class AutomotionBlocks {
     public static final Block BASIC_ENTITY_DETECTOR = register("basic_entity_detector", new EntityDetectorBlock(FabricBlockSettings.of(Material.METAL)));
     public static final Block STEEL_BLOCK = register("steel_block", new Block(FabricBlockSettings.of(Material.METAL, MapColor.BLACK).requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
     public static final Block LIMESTONE = register("limestone", new Block(FabricBlockSettings.of(Material.STONE, MapColor.OFF_WHITE).requiresTool().strength(1.2F, 3F).sounds(BlockSoundGroup.STONE)));
+    public static final Block LIMESTONE_BRICKS = register("limestone_bricks", new Block(FabricBlockSettings.of(Material.STONE, MapColor.OFF_WHITE).requiresTool().strength(1.2F, 3F).sounds(BlockSoundGroup.STONE)));
+    public static final Block COKE_OVEN = register("coke_oven", new CokeOvenBlock(FabricBlockSettings.of(Material.STONE, MapColor.OFF_WHITE).nonOpaque()));
 
     public static final BlockEntityType<ConveyorBeltBlockEntity> CONVEYOR_BELT_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, Automotion.id("conveyor_belt"), FabricBlockEntityTypeBuilder.create(ConveyorBeltBlockEntity::new, CONVEYOR_BELT).build());
     public static final BlockEntityType<EntityDetectorBlockEntity> BASIC_ENTITY_DETECTOR_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, Automotion.id("basic_entity_detector"), FabricBlockEntityTypeBuilder.create(EntityDetectorBlockEntity::new, BASIC_ENTITY_DETECTOR).build());
+    public static final BlockEntityType<CokeOvenBlockEntity> COKE_OVEN_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, Automotion.id("coke_oven"), FabricBlockEntityTypeBuilder.create(CokeOvenBlockEntity::new, COKE_OVEN).build());
 
     public static void init() {
 
